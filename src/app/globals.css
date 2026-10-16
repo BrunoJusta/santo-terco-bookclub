@@ -19,25 +19,9 @@
   --rose-ink: #fff6fa;
   --rose-soft: #f8dce8;
   --shadow: 23 26 59;
-  color-scheme: light;
+  color-scheme: only light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0e1024;
-    --paper-2: #161935;
-    --card: #14172f;
-    --ink: #eceaf5;
-    --ink-2: #b6b8d1;
-    --ink-3: #9a9dbb;
-    --line: #2b2f51;
-    --rose: #f06a9e;
-    --rose-ink: #1c0a15;
-    --rose-soft: #3b1933;
-    --shadow: 0 0 0;
-    color-scheme: dark;
-  }
-}
 
 @theme inline {
   --color-paper: var(--paper);

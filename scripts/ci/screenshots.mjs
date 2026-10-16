@@ -26,7 +26,7 @@ const viewports = [
 
 const browser = await chromium.launch();
 const errors = [];
-for (const scheme of ["light", "dark"]) {
+for (const scheme of ["light"]) {
   for (const [vname, viewport, scale] of viewports) {
     if (scheme === "dark" && vname === "desktop") continue;
     const ctx = await browser.newContext({ viewport, deviceScaleFactor: scale === 3 ? 2 : 1, colorScheme: scheme, reducedMotion: "reduce", locale: "pt-PT", timezoneId: "Europe/Lisbon" });

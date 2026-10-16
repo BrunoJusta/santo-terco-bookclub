@@ -95,10 +95,10 @@ export default async function AgoraPage() {
       {/* Votação aberta (quando já há próximo livro, aparece como faixa) */}
       {openPoll && next && (
         <section className={`${container} reveal mt-14`}>
-          <div className="flex flex-col gap-5 rounded-[14px] bg-ink p-6 text-paper dark:border dark:border-rose/40 dark:bg-paper-2 dark:text-ink sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="flex flex-col gap-5 rounded-[14px] bg-ink p-6 text-paper sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <h2 className="font-display text-3xl leading-tight">{openPoll.title}</h2>
-              <p className="mt-1.5 text-paper/75 dark:text-ink-2">
+              <p className="mt-1.5 text-paper/75">
                 {openPoll.voterIds.length} de {active.length} já votaram
                 {openPoll.closesAt ? `, fecha a ${formatDate(openPoll.closesAt)}` : ""}.
               </p>
