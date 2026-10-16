@@ -149,7 +149,7 @@ export function RankingBoard({
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
-      <section aria-labelledby="ordem">
+      <section aria-labelledby="ordem" className="min-w-0">
         <div className="flex items-baseline justify-between gap-2">
           <h2 id="ordem" className="font-display text-2xl text-ink">
             A tua ordem
@@ -188,7 +188,7 @@ export function RankingBoard({
         )}
       </section>
 
-      <section aria-labelledby="propostos">
+      <section aria-labelledby="propostos" className="min-w-0">
         <h2 id="propostos" className="font-display text-2xl text-ink">
           Livros propostos
         </h2>
