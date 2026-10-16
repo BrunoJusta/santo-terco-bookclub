@@ -47,7 +47,7 @@ function QuickAddBook({ onAdded }: { onAdded: (id: string) => void }) {
       <TextInput label="Título" value={title} onChange={(e) => setTitle(e.target.value)} required />
       <TextInput label="Autor" value={author} onChange={(e) => setAuthor(e.target.value)} />
       <SelectInput label="Proposto por" value={proposedBy} onChange={(e) => setProposedBy(e.target.value)}>
-        <option value="">Escolhe...</option>
+        <option value="">Escolhe…</option>
         {data.members
           .filter((m) => m.active)
           .map((m) => (
@@ -182,7 +182,7 @@ function PollEditor({ poll, onClose }: { poll?: Poll; onClose: () => void }) {
 
       <div className="sticky bottom-0 z-[5] -mx-4 flex flex-wrap gap-2 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-[14px] sm:border">
         <button type="button" className={btn.primary} onClick={save} disabled={saving}>
-          {saving ? "A guardar..." : "Guardar rascunho"}
+          {saving ? "A guardar…" : "Guardar rascunho"}
         </button>
         <ConfirmButton
           className={btn.rose}
@@ -312,7 +312,7 @@ function PollCard({ poll, onEdit }: { poll: Poll; onEdit: () => void }) {
               <div className="flex flex-wrap items-end gap-2">
                 <div className="min-w-56 flex-1">
                   <SelectInput label="Escolha do Comité" value={committee} onChange={(e) => setCommittee(e.target.value)}>
-                    <option value="">Escolhe...</option>
+                    <option value="">Escolhe…</option>
                     {result.tiedIds.map((id) => (
                       <option key={id} value={id}>
                         {book.get(id)?.title}

@@ -95,7 +95,7 @@ export function ReviewForm({ bookId, members, doneIds }: { bookId: string; membe
       )}
       <div>
         <button type="submit" className={btn.rose} disabled={pending}>
-          {pending ? "A enviar..." : "Submeter review"}
+          {pending ? "A enviar…" : "Submeter review"}
         </button>
       </div>
     </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, Eye, PencilSimple, Plus, Trash } from "@phosphor-icons/react";
 import { saveRules } from "@/app/actions/admin";
 import { useAdmin } from "./context";
@@ -16,6 +16,13 @@ export function RulesPanel() {
   const [preview, setPreview] = useState<Record<string, boolean>>({});
   const [saving, setSaving] = useState(false);
   const dirty = JSON.stringify(articles) !== JSON.stringify(data.rules.articles);
+
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
 
   const update = (id: string, patch: Partial<RuleArticle>) => setArticles((as) => as.map((a) => (a.id === id ? { ...a, ...patch } : a)));
   const move = (i: number, j: number) =>
@@ -77,7 +84,7 @@ export function RulesPanel() {
 
       <div className="sticky bottom-0 z-[5] -mx-4 flex flex-wrap gap-2 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-[14px] sm:border">
         <button type="button" className={btn.primary} onClick={save} disabled={saving || !dirty}>
-          {saving ? "A guardar..." : "Guardar regulamento"}
+          {saving ? "A guardar…" : "Guardar regulamento"}
         </button>
         <button
           type="button"

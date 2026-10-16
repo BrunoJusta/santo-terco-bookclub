@@ -100,7 +100,7 @@ function BookSearch({ onPick }: { onPick: (r: BookSearchResult) => void }) {
         />
         <button type="submit" className={btn.primary} disabled={loading || q.trim().length < 2}>
           <MagnifyingGlass size={18} aria-hidden />
-          <span className="hidden sm:inline">{loading ? "A procurar..." : "Pesquisar"}</span>
+          <span className="hidden sm:inline">{loading ? "A procurar…" : "Pesquisar"}</span>
         </button>
       </form>
       <p className="mt-2 text-xs text-ink-3">Preenche autor, ano, páginas, sinopse e capa a partir do Google Books ou da Open Library.</p>
@@ -332,7 +332,7 @@ export function BookEditor({ book, initialStatus, onClose }: { book?: Book; init
 
         <div className="sticky bottom-0 z-[5] -mx-4 flex flex-wrap gap-2 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-[14px] sm:border">
           <button type="submit" className={btn.primary} disabled={saving || coverBusy || photosBusy > 0 || !d.title.trim()}>
-            {saving ? "A guardar..." : "Guardar"}
+            {saving ? "A guardar…" : "Guardar"}
           </button>
           {d.id && d.status !== "lido" && (
             <button type="button" className={btn.rose} disabled={saving} onClick={() => save({ status: "lido" })}>

@@ -166,7 +166,7 @@ export function ImagePicker({
             }}
           />
           <button type="button" className={btn.small} onClick={() => ref.current?.click()} disabled={busy}>
-            <UploadSimple size={16} aria-hidden /> {busy ? "A enviar..." : value ? "Trocar" : "Carregar"}
+            <UploadSimple size={16} aria-hidden /> {busy ? "A enviar…" : value ? "Trocar" : "Carregar"}
           </button>
           {value && onClear && (
             <button type="button" className={btn.danger} onClick={onClear} disabled={busy}>

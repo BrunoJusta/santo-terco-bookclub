@@ -108,7 +108,7 @@ export function VoteFlow({
           <p className="text-sm text-ink-3">Depois de submeter não dá para alterar. Só um admin pode anular um voto.</p>
           <div className="flex flex-wrap gap-2">
             <button type="button" className={btn.rose} onClick={submit} disabled={pending}>
-              {pending ? "A registar..." : "Submeter voto"}
+              {pending ? "A registar…" : "Submeter voto"}
             </button>
             <button type="button" className={btn.ghost} onClick={() => setStep("ordenar")} disabled={pending}>
               Voltar

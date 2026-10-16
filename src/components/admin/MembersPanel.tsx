@@ -64,7 +64,7 @@ function MemberEditor({ member, onDone }: { member?: Member; onDone: () => void 
 
       <div className="flex flex-wrap gap-2">
         <button type="submit" className={btn.smallInk} disabled={saving || name.trim().length < 2}>
-          {saving ? "A guardar..." : "Guardar"}
+          {saving ? "A guardar…" : "Guardar"}
         </button>
         <button type="button" className={btn.small} onClick={onDone}>
           Cancelar

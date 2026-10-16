@@ -30,7 +30,7 @@ function ReviewEdit({ bookId, initial, onDone, takenIds }: { bookId: string; ini
   return (
     <form onSubmit={submit} className="flex flex-col gap-4 rounded-[14px] border border-line bg-card p-4">
       <SelectInput label="Membro" value={memberId} onChange={(e) => setMemberId(e.target.value)} disabled={Boolean(initial)} required>
-        <option value="">Escolhe...</option>
+        <option value="">Escolhe…</option>
         {options.map((m) => (
           <option key={m.id} value={m.id}>
             {m.name}
@@ -45,7 +45,7 @@ function ReviewEdit({ bookId, initial, onDone, takenIds }: { bookId: string; ini
       <TextArea label="Texto" rows={4} value={text} onChange={(e) => setText(e.target.value)} maxLength={3000} />
       <div className="flex gap-2">
         <button type="submit" className={btn.smallInk} disabled={saving || !memberId || !rating}>
-          {saving ? "A guardar..." : "Guardar review"}
+          {saving ? "A guardar…" : "Guardar review"}
         </button>
         <button type="button" className={btn.small} onClick={onDone}>
           Cancelar

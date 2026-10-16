@@ -9,8 +9,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   const configured = isFirebaseConfigured();
   return (
     <>
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+      >
+        Saltar para o conteúdo
+      </a>
       <SiteNav />
-      <main className="pb-28 md:pb-16">
+      <main id="conteudo" className="scroll-mt-20 pb-28 md:pb-16">
         {configured ? (
           children
         ) : (

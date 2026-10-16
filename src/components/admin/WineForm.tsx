@@ -62,7 +62,7 @@ export function WineForm({ initial, fixedBookId, onDone }: { initial?: Wine; fix
       </div>
       <div className="flex gap-2">
         <button type="submit" className={btn.smallInk} disabled={saving || busy || !name.trim()}>
-          {saving ? "A guardar..." : "Guardar vinho"}
+          {saving ? "A guardar…" : "Guardar vinho"}
         </button>
         <button type="button" className={btn.small} onClick={onDone}>
           Cancelar
