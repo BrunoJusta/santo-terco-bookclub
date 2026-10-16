@@ -36,9 +36,11 @@ function credential(): Credential | undefined {
 function app(): App {
   const existing = getApps().find((a) => a.name === "santo-terco");
   if (existing) return existing;
+  const cred = credential();
   return initializeApp(
     {
-      credential: credential(),
+      // Sem chave explícita (emulador ou ADC) a propriedade não pode existir, nem como undefined.
+      ...(cred ? { credential: cred } : {}),
       projectId: process.env.FIREBASE_PROJECT_ID,
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     },

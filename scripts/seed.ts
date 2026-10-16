@@ -19,7 +19,7 @@ for (const file of [".env.local", ".env"]) {
 
 const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
 const app = initializeApp({
-  credential: b64 ? cert(JSON.parse(Buffer.from(b64, "base64").toString("utf8"))) : undefined,
+  ...(b64 ? { credential: cert(JSON.parse(Buffer.from(b64, "base64").toString("utf8"))) } : {}),
   projectId: process.env.FIREBASE_PROJECT_ID,
 });
 const databaseId = process.env.FIREBASE_DATABASE_ID || "santo-terco-bookclub-prod";
