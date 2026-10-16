@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { onAuthStateChanged, signInWithCustomToken, signInWithPopup, signOut, type User } from "firebase/auth";
-import { ArrowSquareOut, GoogleLogo, SignOut } from "@phosphor-icons/react";
-import { clientAuth, googleProvider, isClientConfigured } from "@/lib/firebase-client";
+import { ArrowSquareOut, SignIn, SignOut } from "@phosphor-icons/react";
+import { clientAuth, isClientConfigured, microsoftProvider } from "@/lib/firebase-client";
 import { getAdminData, verifyAdmin } from "@/app/actions/admin";
 import { AdminContext, type AdminCtx } from "./context";
 import { BooksPanel } from "./BooksPanel";
@@ -124,11 +124,11 @@ export function AdminApp() {
 
   async function login() {
     try {
-      await signInWithPopup(clientAuth(), googleProvider());
+      await signInWithPopup(clientAuth(), microsoftProvider());
     } catch (e) {
       const code = (e as { code?: string }).code;
       if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request") {
-        notify("Não foi possível entrar com o Google.", "erro");
+        notify("Não foi possível entrar com a conta Microsoft.", "erro");
       }
     }
   }
@@ -196,7 +196,7 @@ export function AdminApp() {
           {denied ? (
             <p className="mt-4 max-w-[52ch] text-lg text-ink-2">{denied}</p>
           ) : (
-            <p className="mt-4 max-w-[52ch] text-lg text-ink-2">Entra com a tua conta Google @sogrape.pt. Só admins do clube conseguem gerir livros, votações e jantares.</p>
+            <p className="mt-4 max-w-[52ch] text-lg text-ink-2">Entra com a tua conta Microsoft da Sogrape (@sogrape.pt). Só admins do clube conseguem gerir livros, votações e jantares.</p>
           )}
           {!isClientConfigured() ? (
             <p className="mt-6 text-sm text-rose">Falta configurar as variáveis NEXT_PUBLIC_FIREBASE_* no Vercel.</p>
@@ -206,7 +206,7 @@ export function AdminApp() {
             </button>
           ) : (
             <button type="button" className={`${btn.primary} mt-8 w-fit`} onClick={login}>
-              <GoogleLogo size={20} weight="bold" aria-hidden /> Entrar com Google
+              <SignIn size={20} weight="bold" aria-hidden /> Entrar com Microsoft
             </button>
           )}
         </div>

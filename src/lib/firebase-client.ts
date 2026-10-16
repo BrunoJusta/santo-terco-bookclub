@@ -1,5 +1,5 @@
 import { getApps, initializeApp, type FirebaseApp } from "firebase/app";
-import { connectAuthEmulator, getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
+import { connectAuthEmulator, getAuth, OAuthProvider, type Auth } from "firebase/auth";
 import { webConfig } from "./firebase-config";
 
 let app: FirebaseApp | null = null;
@@ -9,7 +9,7 @@ export function isClientConfigured(): boolean {
   return Boolean(webConfig.apiKey && webConfig.projectId);
 }
 
-/** Firebase no browser é usado só para o login Google do backoffice. */
+/** Firebase no browser é usado só para o login Microsoft do backoffice. */
 export function clientAuth(): Auth {
   if (!app) {
     app =
@@ -31,8 +31,16 @@ export function clientAuth(): Auth {
   return auth;
 }
 
-export function googleProvider(): GoogleAuthProvider {
-  const p = new GoogleAuthProvider();
-  p.setCustomParameters({ hd: "sogrape.pt", prompt: "select_account" });
+/**
+ * Login Microsoft (Entra ID) já configurado no Firebase.
+ * O tenant limita a página de login às contas da Sogrape; aceita o domínio ou o ID do tenant.
+ */
+export function microsoftProvider(): OAuthProvider {
+  const p = new OAuthProvider("microsoft.com");
+  p.setCustomParameters({
+    tenant: process.env.NEXT_PUBLIC_MICROSOFT_TENANT || "sogrape.pt",
+    prompt: "select_account",
+  });
+  p.addScope("email");
   return p;
 }

@@ -14,7 +14,7 @@ export function AdminsPanel() {
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
-    const res = await run((t) => addAdmin(t, email), "Admin adicionado. Já pode entrar com o Google.");
+    const res = await run((t) => addAdmin(t, email), "Admin adicionado. Já pode entrar com a conta Microsoft.");
     if (res.ok) setEmail("");
   }
 
@@ -22,7 +22,7 @@ export function AdminsPanel() {
     <div className="flex max-w-2xl flex-col gap-6">
       <div>
         <h1 className="font-display text-4xl text-ink">Admins</h1>
-        <p className="mt-1 text-ink-3">Quem pode entrar na Gestão. Só contas Google @sogrape.pt.</p>
+        <p className="mt-1 text-ink-3">Quem pode entrar na Gestão. Só contas Microsoft @sogrape.pt.</p>
       </div>
 
       <form onSubmit={add} className="flex flex-col gap-1.5">

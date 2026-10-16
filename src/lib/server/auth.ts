@@ -23,7 +23,11 @@ export async function requireAdmin(idToken: string): Promise<string> {
     throw new AuthError("Sessão expirada. Entra outra vez.");
   }
   const email = (decoded.email || "").toLowerCase();
-  if (!email || !decoded.email_verified || !email.endsWith(`@${ALLOWED_DOMAIN}`)) {
+  // O Firebase marca as contas Microsoft (Entra ID) com email_verified = false; para esse fornecedor
+  // a garantia vem do tenant Sogrape no login e da lista de admins abaixo.
+  const provider = decoded.firebase?.sign_in_provider;
+  const trusted = decoded.email_verified === true || provider === "microsoft.com";
+  if (!email || !trusted || !email.endsWith(`@${ALLOWED_DOMAIN}`)) {
     throw new AuthError(`Só contas @${ALLOWED_DOMAIN} podem gerir o clube.`);
   }
   const admins = new Set([...bootstrapAdmins(), ...(await getAdminEmails())]);
