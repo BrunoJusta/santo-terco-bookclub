@@ -14,7 +14,7 @@ import {
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ArrowDown, ArrowUp, DotsSixVertical, Plus, X } from "@phosphor-icons/react";
-import { pointsFor } from "@/lib/voting";
+import { pointsFor, requiredCount } from "@/lib/voting";
 
 export interface VoteBook {
   id: string;
@@ -125,7 +125,7 @@ export function RankingBoard({
   k: number;
   proposerName: (id: string | null) => string | null;
 }) {
-  const max = Math.min(k, books.length);
+  const max = requiredCount(books.length, k);
   const byId = new Map(books.map((b) => [b.id, b]));
   const pool = books.filter((b) => !ranked.includes(b.id));
   const full = ranked.length >= max;
@@ -161,7 +161,7 @@ export function RankingBoard({
         <p className="mt-1 text-sm text-ink-3">1.º lugar vale {k} pontos, e cada lugar abaixo vale menos um.</p>
         {ranked.length === 0 ? (
           <div className="mt-4 rounded-[14px] border border-dashed border-line px-5 py-10 text-center text-ink-3">
-            Toca nos livros ao lado (ou abaixo) para os pores por ordem de preferência.
+            Toca nos livros ao lado (ou abaixo) pela tua ordem de preferência. Tens de ordenar todos.
           </div>
         ) : (
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
@@ -192,7 +192,7 @@ export function RankingBoard({
         <h2 id="propostos" className="font-display text-2xl text-ink">
           Livros propostos
         </h2>
-        <p className="mt-1 text-sm text-ink-3">{full ? `Chegaste ao máximo de ${max}. Retira um para trocar.` : "Não precisas de ordenar todos."}</p>
+        <p className="mt-1 text-sm text-ink-3">{full ? "Todos ordenados. Podes ainda arrastar para afinar." : `Faltam ${max - ranked.length} para completar o boletim.`}</p>
         <ul className="mt-4 flex flex-col gap-2">
           {pool.map((b) => (
             <li key={b.id}>
@@ -218,7 +218,7 @@ export function RankingBoard({
               </button>
             </li>
           ))}
-          {pool.length === 0 && <li className="py-6 text-center text-sm text-ink-3">Ordenaste todos os livros. Coragem.</li>}
+          {pool.length === 0 && <li className="py-6 text-center text-sm text-ink-3">Boletim completo.</li>}
         </ul>
       </section>
     </div>

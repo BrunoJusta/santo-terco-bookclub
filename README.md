@@ -12,7 +12,7 @@ Next.js (App Router) + TypeScript + Tailwind CSS 4, Firebase (Firestore numa bas
 ## Segurança, em resumo
 
 - O browser **nunca** fala com o Firestore. Toda a leitura e escrita passa pelo servidor Next.js (Admin SDK), por isso `firestore.rules` fecha todo o acesso direto.
-- Votos e reviews públicos passam por server actions que validam: votação aberta, membro ativo, um boletim por membro, ordenação válida (1 a k livros da votação). Os boletins nunca são devolvidos a ninguém, nem à Gestão.
+- Votos e reviews públicos passam por server actions que validam: votação aberta, membro ativo, um boletim por membro, ordenação válida (todos os livros da votação, até k). Os boletins nunca são devolvidos a ninguém, nem à Gestão.
 - Ações da Gestão exigem um ID token Firebase válido, email verificado `@sogrape.pt` e presença na lista de admins (`config/admins` ou `ADMIN_BOOTSTRAP_EMAILS`).
 - Imagens são comprimidas no browser e gravadas pelo servidor em `santo-terco-bookclub-prod/` no bucket, com URL de download por token. Não é preciso mexer nas regras do Storage do projeto.
 
@@ -59,7 +59,7 @@ npm run dev
 ## Fluxo do clube
 
 1. **Propostas**: o admin junta os livros na fila (aba Livros, com pesquisa Google Books / Open Library) ou diretamente ao preparar a votação.
-2. **Votação**: aba Votações, escolher os livros e a data de fecho, abrir, copiar o link e partilhar no grupo. Cada membro escolhe o seu nome e ordena até k livros.
+2. **Votação**: aba Votações, escolher os livros e a data de fecho, abrir, copiar o link e partilhar no grupo. Cada membro escolhe o seu nome e ordena todos os livros (até ao limite k).
 3. **Fecho**: automático na data ou manual. Se houver empate depois dos primeiros lugares, o Comité decide ou lança-se a moeda (registada no servidor e reproduzida na página de resultados).
 4. **Próximo livro**: promover o vencedor com a data e o local do jantar. A página inicial mostra o terço com a capa e o countdown.
 5. **Jantar**: marcar como lido, registar presenças, fotos e vinhos, e partilhar o link das reviews.

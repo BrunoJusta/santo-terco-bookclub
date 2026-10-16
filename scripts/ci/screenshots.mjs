@@ -49,6 +49,7 @@ for (const scheme of ["light", "dark"]) {
       await adds.first().click();
       await adds.first().click();
       await adds.first().click();
+      await adds.first().click();
       await page.waitForTimeout(300);
       await page.screenshot({ path: `${out}/${vname}-light-votar-ordem.png`, fullPage: true });
     }

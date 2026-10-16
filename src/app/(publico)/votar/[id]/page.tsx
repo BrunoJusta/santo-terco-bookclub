@@ -39,7 +39,7 @@ export default async function VotarPage({ params }: Props) {
     <div className={`${container} pt-8 md:pt-14`}>
       <h1 className="font-display text-5xl leading-none text-ink md:text-6xl">{poll.title}</h1>
       <p className="mt-3 max-w-[60ch] text-lg text-ink-2">
-        Ordena até {Math.min(poll.k, pollBooks.length)} livros, do favorito para baixo.
+        Ordena {pollBooks.length > poll.k ? `os teus ${poll.k} favoritos` : `todos os ${pollBooks.length} livros`}, do favorito para baixo.
         {poll.closesAt ? ` Fecha ${formatDateTime(poll.closesAt)}.` : ""}
       </p>
       <p className="mt-1 text-sm text-ink-3">

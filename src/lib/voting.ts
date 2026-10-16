@@ -7,7 +7,12 @@ export function pointsFor(position: number, k: number): number {
   return Math.max(0, k + 1 - position);
 }
 
-/** Valida e normaliza uma ordenação: livros da votação, sem repetidos, entre 1 e k. */
+/** Número de livros que cada boletim tem de ordenar: todos, até ao limite k. */
+export function requiredCount(bookCount: number, k: number): number {
+  return Math.min(k, bookCount);
+}
+
+/** Valida e normaliza uma ordenação: livros da votação, sem repetidos, todos ordenados (até k). */
 export function normalizeRanking(ranking: unknown, bookIds: string[], k: number): string[] | null {
   if (!Array.isArray(ranking)) return null;
   const allowed = new Set(bookIds);
@@ -18,7 +23,7 @@ export function normalizeRanking(ranking: unknown, bookIds: string[], k: number)
     seen.add(id);
     out.push(id);
   }
-  if (out.length < 1 || out.length > Math.min(k, bookIds.length)) return null;
+  if (out.length !== requiredCount(bookIds.length, k)) return null;
   return out;
 }
 

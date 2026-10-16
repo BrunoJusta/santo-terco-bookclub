@@ -8,6 +8,7 @@ import { RankingBoard, type VoteBook } from "./RankingBoard";
 import { submitBallot } from "@/app/actions/public";
 import { btn } from "@/components/ui";
 import type { Member } from "@/lib/types";
+import { requiredCount } from "@/lib/voting";
 
 type Step = "nome" | "ordenar" | "confirmar" | "feito";
 
@@ -87,8 +88,8 @@ export function VoteFlow({
           </button>
           <RankingBoard books={books} ranked={ranked} setRanked={setRanked} k={k} proposerName={name} />
           <div className="sticky bottom-20 z-[5] flex justify-end md:bottom-6">
-            <button type="button" className={`${btn.rose} shadow-lg`} disabled={ranked.length === 0} onClick={() => setStep("confirmar")}>
-              Rever voto <ArrowRight size={18} aria-hidden />
+            <button type="button" className={`${btn.rose} shadow-lg`} disabled={ranked.length < requiredCount(books.length, k)} onClick={() => setStep("confirmar")}>
+              {ranked.length < requiredCount(books.length, k) ? `Faltam ${requiredCount(books.length, k) - ranked.length}` : "Rever voto"} <ArrowRight size={18} aria-hidden />
             </button>
           </div>
         </>

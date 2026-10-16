@@ -34,7 +34,7 @@ export async function submitBallot(pollId: string, memberId: string, ranking: st
         throw new UserError("Este nome já votou. Se não foste tu, fala com um admin.");
       }
       const clean = normalizeRanking(ranking, poll.bookIds, poll.k);
-      if (!clean) throw new UserError(`Ordena entre 1 e ${Math.min(poll.k, poll.bookIds.length)} livros.`);
+      if (!clean) throw new UserError(`Tens de ordenar todos os ${Math.min(poll.k, poll.bookIds.length)} livros.`);
       const now = new Date().toISOString();
       tx.create(ballotRef, { pollId, memberId, ranking: clean, createdAt: now });
       tx.update(pollRef, { voterIds: FieldValue.arrayUnion(memberId) });
