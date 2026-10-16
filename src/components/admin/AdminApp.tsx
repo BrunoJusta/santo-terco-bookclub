@@ -11,7 +11,6 @@ import { AdminContext, type AdminCtx } from "./context";
 import { BooksPanel } from "./BooksPanel";
 import { PollsPanel } from "./PollsPanel";
 import { MembersPanel } from "./MembersPanel";
-import { WinesPanel } from "./WinesPanel";
 import { RulesPanel } from "./RulesPanel";
 import { AdminsPanel } from "./AdminsPanel";
 import { btn, container } from "@/components/ui";
@@ -21,7 +20,6 @@ const TABS = [
   { id: "livros", label: "Livros" },
   { id: "votacoes", label: "Votações" },
   { id: "membros", label: "Membros" },
-  { id: "vinhos", label: "Vinhos" },
   { id: "regulamento", label: "Regulamento" },
   { id: "admins", label: "Admins" },
 ] as const;
@@ -237,7 +235,6 @@ export function AdminApp() {
         {tab === "livros" && <BooksPanel />}
         {tab === "votacoes" && <PollsPanel />}
         {tab === "membros" && <MembersPanel />}
-        {tab === "vinhos" && <WinesPanel />}
         {tab === "regulamento" && <RulesPanel />}
         {tab === "admins" && <AdminsPanel />}
       </main>

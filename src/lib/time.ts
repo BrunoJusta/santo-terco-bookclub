@@ -54,7 +54,7 @@ export function formatDate(iso: string | null | undefined): string {
 
 export function formatShortDate(iso: string | null | undefined): string {
   if (!iso) return "";
-  return fmt({ day: "numeric", month: "short", year: "numeric" }).format(new Date(iso)).replace(".", "");
+  return fmt({ day: "numeric", month: "long", year: "numeric" }).format(new Date(iso));
 }
 
 export function formatDateTime(iso: string | null | undefined): string {

@@ -88,70 +88,82 @@ export default async function BookPage({ params }: Props) {
         </div>
       </header>
 
-      {book.photos.length > 0 && (
-        <section className="mt-16" aria-labelledby="fotos">
-          <h2 id="fotos" className="font-display text-3xl text-ink">
-            O encontro
+      {(book.photos.length > 0 || book.attendees.length > 0 || bookWines.length > 0) && (
+        <section className="mt-16 border-t border-line pt-10" aria-labelledby="jantar">
+          <h2 id="jantar" className="font-display text-4xl text-ink">
+            O jantar
           </h2>
-          <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-6">
-            {book.photos.map((p, i) => (
-              <a
-                key={p.path}
-                href={p.url}
-                target="_blank"
-                rel="noreferrer"
-                className={`relative block overflow-hidden rounded-[14px] bg-paper-2 ${
-                  i === 0 ? "col-span-2 aspect-[4/3] md:col-span-4 md:row-span-2" : "aspect-square md:col-span-2"
-                }`}
-              >
-                <Image
-                  src={p.url}
-                  alt={`Fotografia ${i + 1} do jantar de ${book.title}`}
-                  fill
-                  sizes={i === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 50vw"}
-                  className="object-cover transition duration-700 hover:scale-[1.03]"
-                />
-              </a>
-            ))}
+          <p className="mt-1 text-ink-3">{[book.dinnerPlace, formatDate(book.dinnerAt ?? book.readAt)].filter(Boolean).join(", ")}</p>
+
+          {book.photos.length > 0 && (
+            <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-6">
+              {book.photos.map((p, i) => (
+                <a
+                  key={p.path}
+                  href={p.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`relative block overflow-hidden rounded-[14px] bg-paper-2 ${
+                    i === 0 ? "col-span-2 aspect-[4/3] md:col-span-4 md:row-span-2" : "aspect-square md:col-span-2"
+                  }`}
+                >
+                  <Image
+                    src={p.url}
+                    alt={`Fotografia ${i + 1} do jantar de ${book.title}`}
+                    fill
+                    sizes={i === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 50vw"}
+                    className="object-cover transition duration-700 hover:scale-[1.03]"
+                  />
+                </a>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+            {book.attendees.length > 0 && (
+              <div>
+                <h3 className="font-display text-2xl text-ink">À mesa</h3>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {book.attendees.map((m) => (
+                    <li key={m} className={chip}>
+                      {name.get(m) ?? "Ex-membro"}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {bookWines.length > 0 && (
+              <div>
+                <h3 className="font-display text-2xl text-ink">No copo</h3>
+                <div className="relative mt-2">
+                  {/* Prateleira por baixo das garrafas */}
+                  <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[calc(1rem+12rem)] h-3 rounded-full bg-gradient-to-b from-ink/20 to-ink/5" />
+                  <ul className="relative flex snap-x overflow-x-auto pt-4 [scrollbar-width:none]">
+                    {bookWines.map((w) => (
+                      <li key={w.id} className="group flex w-24 shrink-0 snap-start flex-col sm:w-28">
+                        <div className="relative mx-auto h-48 w-20 transition duration-300 ease-[var(--ease-out-soft)] group-hover:-translate-y-2">
+                          <Image
+                            src={w.image!.url}
+                            alt={w.name}
+                            fill
+                            sizes="80px"
+                            className="object-contain object-bottom drop-shadow-[0_10px_12px_rgb(var(--shadow)/0.25)]"
+                          />
+                        </div>
+                        <p className="mt-6 px-1.5 text-center text-xs leading-snug text-ink-2">{w.name}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
         </section>
       )}
 
-      <div className="mt-16 grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-        <div className="flex flex-col gap-12">
-          {book.attendees.length > 0 && (
-            <section aria-labelledby="presentes">
-              <h2 id="presentes" className="font-display text-2xl text-ink">
-                À mesa
-              </h2>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {book.attendees.map((m) => (
-                  <li key={m} className={chip}>
-                    {name.get(m) ?? "Ex-membro"}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {bookWines.length > 0 && (
-            <section aria-labelledby="vinhos">
-              <h2 id="vinhos" className="font-display text-2xl text-ink">
-                No copo
-              </h2>
-              <ul className="mt-4 flex flex-wrap items-end gap-5 border-b-2 border-ink/15 pb-2">
-                {bookWines.map((w) => (
-                  <li key={w.id} className="flex w-16 flex-col items-center gap-2">
-                    <div className="relative h-40 w-16">
-                      <Image src={w.image!.url} alt={w.name} fill sizes="64px" className="object-contain object-bottom drop-shadow-md" />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-2 text-sm text-ink-3">{bookWines.map((w) => w.name).join(", ")}</p>
-            </section>
-          )}
-
+      <div className="mt-16 grid gap-12 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+        <div>
           {book.synopsis && (
             <section aria-labelledby="sinopse">
               <h2 id="sinopse" className="font-display text-2xl text-ink">

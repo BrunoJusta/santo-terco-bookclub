@@ -32,7 +32,7 @@ export default async function AgoraPage() {
       <section className={`${container} pt-6 md:pt-12`}>
         {next ? (
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-            <Rosary cover={next.cover} title={next.title} className="max-w-[300px] sm:max-w-[340px] lg:max-w-[380px]" />
+            <Rosary cover={next.cover} title={next.title} className="max-w-[230px] sm:max-w-[320px] lg:max-w-[380px]" />
             <div className="rise flex flex-col gap-6">
               <div>
                 <p className="text-sm font-medium text-rose">Próximo livro</p>
@@ -74,7 +74,7 @@ export default async function AgoraPage() {
           </div>
         ) : (
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-            <Rosary cover={null} title="?" className="max-w-[260px] opacity-80 lg:max-w-[340px]" />
+            <Rosary cover={null} title="?" className="max-w-[220px] opacity-80 sm:max-w-[300px] lg:max-w-[340px]" />
             <div className="flex flex-col gap-4">
               <h1 className="font-display text-4xl leading-[1.1] text-ink sm:text-5xl">O próximo livro ainda está em oração.</h1>
               <p className="max-w-[46ch] text-lg text-ink-2">
@@ -95,10 +95,10 @@ export default async function AgoraPage() {
       {/* Votação aberta (quando já há próximo livro, aparece como faixa) */}
       {openPoll && next && (
         <section className={`${container} mt-14`}>
-          <div className="flex flex-col gap-5 rounded-[14px] bg-ink p-6 text-paper sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="flex flex-col gap-5 rounded-[14px] bg-ink p-6 text-paper dark:border dark:border-rose/40 dark:bg-paper-2 dark:text-ink sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <h2 className="font-display text-3xl leading-tight">{openPoll.title}</h2>
-              <p className="mt-1.5 text-paper/75">
+              <p className="mt-1.5 text-paper/75 dark:text-ink-2">
                 {openPoll.voterIds.length} de {active.length} já votaram
                 {openPoll.closesAt ? `, fecha a ${formatDate(openPoll.closesAt)}` : ""}.
               </p>

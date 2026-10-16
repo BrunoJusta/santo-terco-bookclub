@@ -70,7 +70,9 @@ function RankedItem({
         <DotsSixVertical size={22} weight="bold" aria-hidden />
       </button>
       <span className="tabular w-6 shrink-0 text-center font-mono text-lg text-ink">{index + 1}</span>
-      <Thumb book={book} />
+      <div className="hidden sm:block">
+        <Thumb book={book} />
+      </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-[15px] font-medium text-ink">{book.title}</p>
         <p className="truncate text-sm text-ink-3">{book.author}</p>

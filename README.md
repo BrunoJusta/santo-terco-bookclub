@@ -2,7 +2,7 @@
 
 App do clube de leitura Santo Terço (Sogrape): o próximo livro com countdown até ao jantar, a estante dos livros lidos com média do clube, os vinhos bebidos, o regulamento e as votações do Art. 4.º.
 
-- **Parte pública** sem login (`/`, `/estante`, `/vinhos`, `/clube`, `/votar/[id]`, `/review/[id]`), marcada como `noindex`.
+- **Parte pública** sem login (`/`, `/estante` (com o jantar e os vinhos no detalhe de cada livro), `/clube`, `/votar/[id]`, `/review/[id]`), marcada como `noindex`.
 - **Gestão** em `/gestao`, com login Google restrito a contas `@sogrape.pt` que estejam na lista de admins.
 
 ## Stack

@@ -3,12 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Books, HandsPraying, UsersThree, Wine } from "@phosphor-icons/react";
+import { Books, HandsPraying, UsersThree } from "@phosphor-icons/react";
 
 const LINKS = [
   { href: "/", label: "Agora", Icon: HandsPraying },
   { href: "/estante", label: "Estante", Icon: Books },
-  { href: "/vinhos", label: "Vinhos", Icon: Wine },
   { href: "/clube", label: "Clube", Icon: UsersThree },
 ];
 
@@ -50,7 +49,7 @@ export function SiteNav() {
         aria-label="Principal"
         className="fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
       >
-        <ul className="grid grid-cols-4">
+        <ul className="grid grid-cols-3">
           {LINKS.map(({ href, label, Icon }) => {
             const active = isActive(path, href);
             return (

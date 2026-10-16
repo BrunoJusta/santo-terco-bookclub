@@ -10,7 +10,6 @@ const pages = [
   ["agora", "/"],
   ["estante", "/estante"],
   ["livro", "/estante/the-silent-patient"],
-  ["vinhos", "/vinhos"],
   ["clube", "/clube"],
   ["votar", "/votar/votacao-2027"],
   ["resultados-aberta", "/votar/votacao-2027/resultados"],

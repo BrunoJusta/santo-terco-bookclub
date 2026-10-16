@@ -65,14 +65,15 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+/* text-wrap-style (e não o atalho text-wrap) para não anular o "truncate" */
 h1,
 h2,
 h3 {
-  text-wrap: balance;
+  text-wrap-style: balance;
 }
 
 p {
-  text-wrap: pretty;
+  text-wrap-style: pretty;
 }
 
 a,
