@@ -87,7 +87,7 @@ function MemberEditor({ member, onDone }: { member?: Member; onDone: () => void 
 }
 
 export function MembersPanel() {
-  const { data } = useAdmin();
+  const { data, run } = useAdmin();
   const [editing, setEditing] = useState<string | "novo" | null>(null);
   const members = [...data.members].sort((a, b) => Number(b.active) - Number(a.active) || Number(b.founder) - Number(a.founder) || a.name.localeCompare(b.name, "pt"));
 

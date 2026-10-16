@@ -3,7 +3,7 @@
 App do clube de leitura Santo Terço (Sogrape): o próximo livro com countdown até ao jantar, a estante dos livros lidos com média do clube, os vinhos bebidos, o regulamento e as votações do Art. 4.º.
 
 - **Parte pública** sem login (`/`, `/estante` (com o jantar e os vinhos no detalhe de cada livro), `/clube`, `/votar/[id]`, `/review/[id]`), marcada como `noindex`.
-- **Gestão** em `/gestao`, com login Google restrito a contas `@sogrape.pt` que estejam na lista de admins.
+- **Gestão** em `/gestao`, com login Microsoft (Entra ID, já configurado no Firebase) restrito a contas `@sogrape.pt` que estejam na lista de admins.
 
 ## Stack
 
@@ -13,7 +13,7 @@ Next.js (App Router) + TypeScript + Tailwind CSS 4, Firebase (Firestore numa bas
 
 - O browser **nunca** fala com o Firestore. Toda a leitura e escrita passa pelo servidor Next.js (Admin SDK), por isso `firestore.rules` fecha todo o acesso direto.
 - Votos e reviews públicos passam por server actions que validam: votação aberta, membro ativo, um boletim por membro, ordenação válida (todos os livros da votação, até k). Os boletins nunca são devolvidos a ninguém, nem à Gestão.
-- Ações da Gestão exigem um ID token Firebase válido, email verificado `@sogrape.pt` e presença na lista de admins (`config/admins` ou `ADMIN_BOOTSTRAP_EMAILS`).
+- Ações da Gestão exigem um ID token Firebase válido de uma conta `@sogrape.pt` (Microsoft) e presença na lista de admins (`config/admins` ou `ADMIN_BOOTSTRAP_EMAILS`).
 - Imagens são comprimidas no browser e gravadas pelo servidor em `santo-terco-bookclub-prod/` no bucket, com URL de download por token. Não é preciso mexer nas regras do Storage do projeto.
 
 ## Modelo de dados (base `santo-terco-bookclub-prod`)
@@ -32,7 +32,7 @@ Next.js (App Router) + TypeScript + Tailwind CSS 4, Firebase (Firestore numa bas
 ## Configuração (uma vez)
 
 1. **Firebase** (projeto `sogrape-ai-studio`, base `santo-terco-bookclub-prod` já criada):
-   - Authentication: ativar o fornecedor **Google** (se ainda não estiver) e, em *Settings > Authorized domains*, acrescentar o domínio do Vercel (por exemplo `santo-terco.vercel.app`).
+   - Authentication: o fornecedor **Microsoft** já está ativo; em *Settings > Authorized domains*, acrescentar o domínio do Vercel (por exemplo `santo-terco.vercel.app`). O login abre a página da Microsoft limitada ao tenant `sogrape.pt` (muda com `NEXT_PUBLIC_MICROSOFT_TENANT` se for preciso o ID do tenant).
    - Project settings > General: copiar a configuração da app Web (apiKey, appId).
    - Project settings > Service accounts: gerar uma chave. Codificar em base64: `base64 -i chave.json | tr -d '\n'`.
    - Recomendado: usar uma service account dedicada em vez da chave de admin geral, com os papéis *Cloud Datastore User* (com condição IAM `resource.name.startsWith("projects/sogrape-ai-studio/databases/santo-terco-bookclub-prod")`), *Storage Object Admin* limitado ao bucket e *Firebase Authentication Viewer* (para validar tokens). Assim a chave no Vercel não dá acesso aos dados do AI Studio.
