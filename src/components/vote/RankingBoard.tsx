@@ -74,11 +74,12 @@ function RankedItem({
         <Thumb book={book} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-[15px] font-medium text-ink">{book.title}</p>
+        <p className="line-clamp-2 text-[15px] font-medium leading-snug text-ink">{book.title}</p>
         <p className="truncate text-sm text-ink-3">{book.author}</p>
       </div>
-      <span className="tabular shrink-0 rounded-full bg-rose-soft px-2.5 py-1 font-mono text-sm text-rose" aria-label={`${pointsFor(index + 1, k)} pontos`}>
-        {pointsFor(index + 1, k)} pts
+      <span className="tabular shrink-0 rounded-full bg-rose-soft px-2 py-1 font-mono text-sm text-rose" aria-label={`${pointsFor(index + 1, k)} pontos`}>
+        {pointsFor(index + 1, k)}
+        <span className="hidden sm:inline"> pts</span>
       </span>
       <div className="flex shrink-0 flex-col">
         <button

@@ -54,7 +54,7 @@ const coverStyle = {
 export function Rosary({ cover, title, className }: { cover: Photo | null; title: string; className?: string }) {
   const loopPath = `M ${LOOP[0].x} ${LOOP[0].y} ` + LOOP.slice(1).map((b) => `L ${b.x} ${b.y}`).join(" ");
   return (
-    <div className={`relative mx-auto aspect-[400/664] w-full max-w-[360px] ${className ?? ""}`}>
+    <div className={`relative mx-auto aspect-[400/664] w-full ${className ?? "max-w-[360px]"}`}>
       {/* Halo discreto atrás da capa */}
       <div
         aria-hidden
