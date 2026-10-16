@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+/*
+  Santo Terço · sistema visual
+  Base editorial (papel frio, tinta azul-noite tirada do logo) com um único acento rosa.
+  Raios: botões e chips em pílula, cartões 14px, campos 10px.
+  Camadas (z-index): 10 navegação, 40 diálogos, 50 avisos, 60 grão.
+*/
+
+:root {
+  --paper: #f4f5f8;
+  --paper-2: #e9ebf2;
+  --card: #fbfbfd;
+  --ink: #171a3b;
+  --ink-2: #474b6f;
+  --ink-3: #626688;
+  --line: #d6d9e5;
+  --rose: #c42766;
+  --rose-ink: #fff6fa;
+  --rose-soft: #f8dce8;
+  --shadow: 23 26 59;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0e1024;
+    --paper-2: #161935;
+    --card: #14172f;
+    --ink: #eceaf5;
+    --ink-2: #b6b8d1;
+    --ink-3: #9a9dbb;
+    --line: #2b2f51;
+    --rose: #f06a9e;
+    --rose-ink: #1c0a15;
+    --rose-soft: #3b1933;
+    --shadow: 0 0 0;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-rose: var(--rose);
+  --color-rose-ink: var(--rose-ink);
+  --color-rose-soft: var(--rose-soft);
+  --font-display: var(--font-gloock), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --radius-card: 14px;
+  --radius-field: 10px;
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grão de papel, fixo e fora do fluxo para não custar nada ao scroll. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+::selection {
+  background: var(--rose-soft);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Conteúdo em markdown (regulamento, sinopses) */
+.prose-st {
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.prose-st p + p,
+.prose-st p + ol,
+.prose-st p + ul,
+.prose-st ol + p,
+.prose-st ul + p {
+  margin-top: 0.85rem;
+}
+.prose-st strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.prose-st ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.prose-st ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-st li + li {
+  margin-top: 0.4rem;
+}
+.prose-st .katex-display {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-field);
+  background: var(--paper-2);
+  overflow-x: auto;
+  color: var(--ink);
+}
+
+/* Contas do terço: uma acende a cada segundo, como quem reza o tempo até ao jantar. */
+.bead {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bead-pray {
+    animation: bead-pray var(--loop, 55s) linear infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  .rise {
+    animation: rise 0.7s var(--ease-out-soft) both;
+    animation-delay: var(--delay, 0s);
+  }
+}
+@keyframes bead-pray {
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  0.9% {
+    transform: scale(1.38);
+    opacity: 1;
+  }
+  2.6% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+dialog::backdrop {
+  background: rgb(14 16 36 / 0.55);
+  backdrop-filter: blur(2px);
+}

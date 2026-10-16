@@ -1,0 +1,9 @@
+{
+  "firestore": [
+    {
+      "database": "santo-terco-bookclub-prod",
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    }
+  ]
+}
