@@ -21,7 +21,9 @@ for (const file of [".env.local", ".env"]) {
 const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
 const projectId = process.env.FIREBASE_PROJECT_ID || parseWebConfig(process.env.NEXT_PUBLIC_FIREBASE_CONFIG).projectId;
 process.env.FIREBASE_PROJECT_ID = projectId;
-const credential = b64
+const credential = process.env.FIREBASE_SERVICE_ACCOUNT
+  ? cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))
+  : b64
   ? cert(JSON.parse(Buffer.from(b64, "base64").toString("utf8")))
   : process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY
     ? cert({ projectId, clientEmail: process.env.FIREBASE_CLIENT_EMAIL, privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n") })

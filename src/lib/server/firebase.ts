@@ -15,7 +15,8 @@ export const STORAGE_PREFIX = (process.env.FIREBASE_STORAGE_PREFIX || "santo-ter
 export function isFirebaseConfigured(): boolean {
   return Boolean(
     PROJECT_ID &&
-      (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64 ||
+      (process.env.FIREBASE_SERVICE_ACCOUNT ||
+        process.env.FIREBASE_SERVICE_ACCOUNT_BASE64 ||
         (process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) ||
         process.env.GOOGLE_APPLICATION_CREDENTIALS ||
         process.env.FIRESTORE_EMULATOR_HOST),
@@ -23,6 +24,9 @@ export function isFirebaseConfigured(): boolean {
 }
 
 function credential(): Credential | undefined {
+  // JSON da service account colado tal como foi descarregado
+  const raw = process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (raw) return cert(JSON.parse(raw));
   const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
   if (b64) {
     const json = JSON.parse(Buffer.from(b64, "base64").toString("utf8"));
