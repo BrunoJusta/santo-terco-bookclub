@@ -3,13 +3,18 @@ import { cert, getApps, initializeApp, type App, type Credential } from "firebas
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
+import { webConfig } from "../firebase-config";
+
+// Projeto e bucket vêm das variáveis próprias ou, por omissão, do bloco NEXT_PUBLIC_FIREBASE_CONFIG.
+const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || webConfig.projectId;
+const STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET || webConfig.storageBucket;
 
 export const DATABASE_ID = process.env.FIREBASE_DATABASE_ID || "santo-terco-bookclub-prod";
 export const STORAGE_PREFIX = (process.env.FIREBASE_STORAGE_PREFIX || "santo-terco-bookclub-prod").replace(/\/+$/, "");
 
 export function isFirebaseConfigured(): boolean {
   return Boolean(
-    process.env.FIREBASE_PROJECT_ID &&
+    PROJECT_ID &&
       (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64 ||
         (process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) ||
         process.env.GOOGLE_APPLICATION_CREDENTIALS ||
@@ -25,7 +30,7 @@ function credential(): Credential | undefined {
   }
   if (process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
     return cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      projectId: PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
     });
@@ -41,8 +46,8 @@ function app(): App {
     {
       // Sem chave explícita (emulador ou ADC) a propriedade não pode existir, nem como undefined.
       ...(cred ? { credential: cred } : {}),
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      projectId: PROJECT_ID,
+      storageBucket: STORAGE_BUCKET,
     },
     "santo-terco",
   );
@@ -64,7 +69,7 @@ export function adminAuth() {
 }
 
 export function bucket() {
-  return getStorage(app()).bucket(process.env.FIREBASE_STORAGE_BUCKET);
+  return getStorage(app()).bucket(STORAGE_BUCKET);
 }
 
 export const col = {

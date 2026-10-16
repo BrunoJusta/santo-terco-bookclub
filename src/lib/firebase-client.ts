@@ -1,11 +1,12 @@
 import { getApps, initializeApp, type FirebaseApp } from "firebase/app";
 import { connectAuthEmulator, getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
+import { webConfig } from "./firebase-config";
 
 let app: FirebaseApp | null = null;
 let emulatorConnected = false;
 
 export function isClientConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_FIREBASE_API_KEY && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
+  return Boolean(webConfig.apiKey && webConfig.projectId);
 }
 
 /** Firebase no browser é usado só para o login Google do backoffice. */
@@ -14,10 +15,10 @@ export function clientAuth(): Auth {
     app =
       getApps()[0] ??
       initializeApp({
-        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+        apiKey: webConfig.apiKey,
+        authDomain: webConfig.authDomain,
+        projectId: webConfig.projectId,
+        appId: webConfig.appId,
       });
   }
   const auth = getAuth(app);
