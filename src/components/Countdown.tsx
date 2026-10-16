@@ -45,7 +45,9 @@ export function Countdown({ target }: { target: string }) {
           key={label}
           className={`flex min-w-0 flex-1 flex-col items-center rounded-[14px] border border-line bg-card px-2 py-3 sm:px-4 ${i === 0 ? "border-ink bg-ink text-paper" : ""}`}
         >
-          <span className={`tabular font-mono text-3xl leading-none sm:text-4xl ${i === 0 ? "text-paper" : "text-ink"}`}>{value}</span>
+          <span key={value} className={`tick tabular font-mono text-3xl leading-none sm:text-4xl ${i === 0 ? "text-paper" : "text-ink"}`}>
+            {value}
+          </span>
           <span className={`mt-1.5 text-xs ${i === 0 ? "text-paper/75" : "text-ink-3"}`}>{label}</span>
         </div>
       ))}

@@ -178,6 +178,86 @@ body::after {
     animation-delay: var(--delay, 0s);
   }
 }
+/* Movimento contínuo e discreto: o terço pendurado a balançar, a cauda com atraso, o halo a respirar. */
+@media (prefers-reduced-motion: no-preference) {
+  .rosary-sway {
+    transform-origin: 50% 3%;
+    animation: rosary-sway 8s ease-in-out infinite;
+  }
+  .tail-sway {
+    transform-box: view-box;
+    animation: tail-sway 8s ease-in-out infinite;
+    animation-delay: -1.2s;
+  }
+  .halo-breathe {
+    animation: halo-breathe 6s ease-in-out infinite;
+  }
+  .tick {
+    display: inline-block;
+    animation: tick 0.45s var(--ease-out-soft);
+  }
+}
+@keyframes rosary-sway {
+  0%,
+  100% {
+    transform: rotate(-1.4deg);
+  }
+  50% {
+    transform: rotate(1.4deg);
+  }
+}
+@keyframes tail-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+@keyframes halo-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@keyframes tick {
+  from {
+    transform: translateY(-35%);
+    opacity: 0.2;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Secções a entrar com o scroll (só em browsers com scroll-driven animations). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 22%;
+    }
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes bead-pray {
   0% {
     transform: scale(1);

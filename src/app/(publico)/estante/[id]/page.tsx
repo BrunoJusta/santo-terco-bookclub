@@ -89,7 +89,7 @@ export default async function BookPage({ params }: Props) {
       </header>
 
       {(book.photos.length > 0 || book.attendees.length > 0 || bookWines.length > 0) && (
-        <section className="mt-16 border-t border-line pt-10" aria-labelledby="jantar">
+        <section className="reveal mt-16 border-t border-line pt-10" aria-labelledby="jantar">
           <h2 id="jantar" className="font-display text-4xl text-ink">
             O jantar
           </h2>
@@ -162,7 +162,7 @@ export default async function BookPage({ params }: Props) {
         </section>
       )}
 
-      <div className="mt-16 grid gap-12 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+      <div className="reveal mt-16 grid gap-12 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
         <div>
           {book.synopsis && (
             <section aria-labelledby="sinopse">

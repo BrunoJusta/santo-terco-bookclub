@@ -37,7 +37,7 @@ export default async function ClubePage() {
         </div>
       </section>
 
-      <section className="mt-20 grid gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]" aria-labelledby="membros">
+      <section className="reveal mt-20 grid gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]" aria-labelledby="membros">
         <div>
           <h2 className="flex items-center gap-2 font-display text-3xl text-ink">
             <Crown size={26} weight="fill" className="text-rose" aria-hidden />
@@ -67,7 +67,7 @@ export default async function ClubePage() {
       </section>
 
       {debtors.length > 0 && (
-        <section className={`${card} mt-16 p-6 md:p-8`} aria-labelledby="rodadas">
+        <section className={`${card} reveal mt-16 p-6 md:p-8`} aria-labelledby="rodadas">
           <h2 id="rodadas" className="flex items-center gap-2 font-display text-3xl text-ink">
             <Wine size={26} className="text-rose" aria-hidden />
             Rodadas em dívida
@@ -89,7 +89,7 @@ export default async function ClubePage() {
         </section>
       )}
 
-      <section className="mt-20" aria-labelledby="regulamento">
+      <section className="reveal mt-20" aria-labelledby="regulamento">
         <h2 id="regulamento" className="font-display text-4xl text-ink md:text-5xl">
           Regulamento
         </h2>

@@ -54,11 +54,11 @@ const coverStyle = {
 export function Rosary({ cover, title, className }: { cover: Photo | null; title: string; className?: string }) {
   const loopPath = `M ${LOOP[0].x} ${LOOP[0].y} ` + LOOP.slice(1).map((b) => `L ${b.x} ${b.y}`).join(" ");
   return (
-    <div className={`relative mx-auto aspect-[400/664] w-full ${className ?? "max-w-[360px]"}`}>
+    <div className={`rosary-sway relative mx-auto aspect-[400/664] w-full ${className ?? "max-w-[360px]"}`}>
       {/* Halo discreto atrás da capa */}
       <div
         aria-hidden
-        className="absolute rounded-full bg-rose/25 blur-3xl"
+        className="halo-breathe absolute rounded-full bg-rose/25 blur-3xl"
         style={{ left: "18%", top: "10%", width: "64%", height: "52%" }}
       />
       <div className="absolute overflow-hidden rounded-[6px] shadow-[0_24px_50px_-18px_rgb(var(--shadow)/0.55)]" style={coverStyle}>
@@ -87,7 +87,7 @@ export function Rosary({ cover, title, className }: { cover: Photo | null; title
 
         <path d={loopPath} fill="none" stroke="#e2477f" strokeOpacity="0.45" strokeWidth="1.4" />
         <path
-          d={`M ${LOOP[0].x} ${LOOP[0].y} L ${CX} ${JOIN_Y} L ${LOOP[LOOP.length - 1].x} ${LOOP[LOOP.length - 1].y} M ${CX} ${JOIN_Y} L ${CX} ${CROSS_TOP}`}
+          d={`M ${LOOP[0].x} ${LOOP[0].y} L ${CX} ${JOIN_Y} L ${LOOP[LOOP.length - 1].x} ${LOOP[LOOP.length - 1].y}`}
           fill="none"
           stroke="#e2477f"
           strokeOpacity="0.45"
@@ -109,19 +109,22 @@ export function Rosary({ cover, title, className }: { cover: Photo | null; title
           />
         ))}
 
+
+        <g className="tail-sway" style={{ transformOrigin: `${CX}px ${JOIN_Y}px` }}>
+          <path d={`M ${CX} ${JOIN_Y} L ${CX} ${CROSS_TOP}`} fill="none" stroke="#e2477f" strokeOpacity="0.45" strokeWidth="1.4" />
+          {TAIL.map((b, i) => (
+            <circle key={`t${i}`} className="bead" cx={b.x} cy={b.y} r={b.r} fill="url(#st-bead)" stroke="#d23a73" strokeOpacity="0.55" strokeWidth="0.8" />
+          ))}
+
+          {/* Cruz */}
+          <g transform={`translate(${CX} ${CROSS_TOP})`}>
+            <rect x="-7" y="0" width="14" height="62" rx="7" fill="url(#st-cross)" />
+            <rect x="-24" y="14" width="48" height="13" rx="6.5" fill="url(#st-cross)" />
+            <rect x="-7" y="0" width="14" height="62" rx="7" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="1" />
+          </g>
+        </g>
         {/* Medalha de junção */}
         <ellipse cx={CX} cy={JOIN_Y} rx="9" ry="11" fill="url(#st-cross)" stroke="#d23a73" strokeOpacity="0.6" strokeWidth="0.8" />
-
-        {TAIL.map((b, i) => (
-          <circle key={`t${i}`} className="bead" cx={b.x} cy={b.y} r={b.r} fill="url(#st-bead)" stroke="#d23a73" strokeOpacity="0.55" strokeWidth="0.8" />
-        ))}
-
-        {/* Cruz */}
-        <g transform={`translate(${CX} ${CROSS_TOP})`}>
-          <rect x="-7" y="0" width="14" height="62" rx="7" fill="url(#st-cross)" />
-          <rect x="-24" y="14" width="48" height="13" rx="6.5" fill="url(#st-cross)" />
-          <rect x="-7" y="0" width="14" height="62" rx="7" fill="none" stroke="#ffffff" strokeOpacity="0.5" strokeWidth="1" />
-        </g>
       </svg>
     </div>
   );

@@ -94,7 +94,7 @@ export default async function AgoraPage() {
 
       {/* Votação aberta (quando já há próximo livro, aparece como faixa) */}
       {openPoll && next && (
-        <section className={`${container} mt-14`}>
+        <section className={`${container} reveal mt-14`}>
           <div className="flex flex-col gap-5 rounded-[14px] bg-ink p-6 text-paper dark:border dark:border-rose/40 dark:bg-paper-2 dark:text-ink sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <h2 className="font-display text-3xl leading-tight">{openPoll.title}</h2>
@@ -111,7 +111,7 @@ export default async function AgoraPage() {
       )}
 
       {/* Leituras do ano, contadas como contas */}
-      <section className={`${container} mt-16`}>
+      <section className={`${container} reveal mt-16`}>
         <div className="flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="font-display text-3xl text-ink">
@@ -138,7 +138,7 @@ export default async function AgoraPage() {
 
       {/* Último jantar */}
       {last && (
-        <section className={`${container} mt-16`}>
+        <section className={`${container} reveal mt-16`}>
           <div className="grid gap-6 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-center">
             <Link href={`/estante/${last.id}`} className="group relative block aspect-[4/3] overflow-hidden rounded-[14px] bg-paper-2">
               {last.photos[0] ? (

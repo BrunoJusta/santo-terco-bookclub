@@ -52,7 +52,7 @@ export default async function EstantePage() {
       {rest.length > 0 && (
         <ul className="mt-10 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
           {rest.map(({ book, avg }) => (
-            <li key={book.id}>
+            <li key={book.id} className="reveal">
               <Link href={`/estante/${book.id}`} className="group flex flex-col gap-3">
                 <BookCover book={book} sizes="(min-width: 1024px) 200px, 45vw" className="transition duration-500 group-hover:-translate-y-1" />
                 <div>

@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const configured = isFirebaseConfigured();
   return (
-    <>
+    <div className="flex min-h-[100dvh] flex-col">
       <a
         href="#conteudo"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
@@ -16,7 +16,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         Saltar para o conteúdo
       </a>
       <SiteNav />
-      <main id="conteudo" className="scroll-mt-20 pb-28 md:pb-16">
+      <main id="conteudo" className="flex-1 scroll-mt-20 pb-28 md:pb-16">
         {configured ? (
           children
         ) : (
@@ -28,12 +28,12 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </div>
         )}
       </main>
-      <footer className={`${container} hidden border-t border-line py-8 text-sm text-ink-3 md:flex md:items-center md:justify-between`}>
+      <footer className={`${container} mt-auto hidden border-t border-line py-8 text-sm text-ink-3 md:flex md:items-center md:justify-between`}>
         <span>Santo Terço Book Club. Sem fins lucrativos, com muitos bitaites.</span>
         <Link href="/gestao" className="hover:text-ink">
           Gestão
         </Link>
       </footer>
-    </>
+    </div>
   );
 }
