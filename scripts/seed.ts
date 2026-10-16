@@ -8,6 +8,7 @@ import { cert, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { DEFAULT_RULES, SEED_MEMBERS } from "../src/lib/default-rules";
 import { slugify } from "../src/lib/format";
+import { parseWebConfig } from "../src/lib/firebase-config";
 
 for (const file of [".env.local", ".env"]) {
   if (!existsSync(file)) continue;
@@ -18,10 +19,14 @@ for (const file of [".env.local", ".env"]) {
 }
 
 const b64 = process.env.FIREBASE_SERVICE_ACCOUNT_BASE64;
-const app = initializeApp({
-  ...(b64 ? { credential: cert(JSON.parse(Buffer.from(b64, "base64").toString("utf8"))) } : {}),
-  projectId: process.env.FIREBASE_PROJECT_ID,
-});
+const projectId = process.env.FIREBASE_PROJECT_ID || parseWebConfig(process.env.NEXT_PUBLIC_FIREBASE_CONFIG).projectId;
+process.env.FIREBASE_PROJECT_ID = projectId;
+const credential = b64
+  ? cert(JSON.parse(Buffer.from(b64, "base64").toString("utf8")))
+  : process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY
+    ? cert({ projectId, clientEmail: process.env.FIREBASE_CLIENT_EMAIL, privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n") })
+    : undefined;
+const app = initializeApp({ ...(credential ? { credential } : {}), projectId });
 const databaseId = process.env.FIREBASE_DATABASE_ID || "santo-terco-bookclub-prod";
 const db = getFirestore(app, databaseId);
 
