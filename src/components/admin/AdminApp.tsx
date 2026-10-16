@@ -93,6 +93,7 @@ export function AdminApp() {
       setDenied(null);
       const res = await getAdminData(token);
       if (!cancelled) {
+        if (res.ok && res.data.members.length === 0) setTab("membros");
         if (res.ok) setData(res.data);
         else setDenied(res.error);
       }

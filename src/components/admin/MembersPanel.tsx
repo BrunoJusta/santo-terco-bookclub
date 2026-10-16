@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Crown, Plus, Trash, Wine } from "@phosphor-icons/react";
-import { deleteMember, saveMember } from "@/app/actions/admin";
+import { deleteMember, saveMember, seedInitialData } from "@/app/actions/admin";
 import { useAdmin } from "./context";
 import { ConfirmButton, StatusPill, TextInput, Toggle } from "./bits";
 import { btn, card, field } from "@/components/ui";
@@ -104,6 +104,18 @@ export function MembersPanel() {
           <Plus size={18} aria-hidden /> Novo membro
         </button>
       </div>
+
+      {data.members.length === 0 && (
+        <div className="flex flex-col gap-3 rounded-[14px] border border-dashed border-line p-6">
+          <p className="font-display text-2xl text-ink">Ainda não há membros.</p>
+          <p className="text-ink-3">Carrega os 16 membros do Anexo I do regulamento (5 founders) e o texto do Regulamento 2026.</p>
+          <div>
+            <button type="button" className={btn.rose} onClick={() => run((t) => seedInitialData(t), "Membros e regulamento carregados.")}>
+              Carregar dados iniciais
+            </button>
+          </div>
+        </div>
+      )}
 
       {editing === "novo" && <MemberEditor onDone={() => setEditing(null)} />}
 

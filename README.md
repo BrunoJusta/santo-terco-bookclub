@@ -42,7 +42,7 @@ Next.js (App Router) + TypeScript + Tailwind CSS 4, Firebase (Firestore numa bas
    ```
    O `firebase.json` aponta apenas para a base `santo-terco-bookclub-prod`; as regras da base do AI Studio não são tocadas.
 3. **Vercel**: importar o repo e definir as variáveis do `.env.example`: o bloco `firebaseConfig` em `NEXT_PUBLIC_FIREBASE_CONFIG`, a service account e `ADMIN_BOOTSTRAP_EMAILS`.
-4. **Seed** (16 membros do Anexo I, regulamento 2026, admin inicial):
+4. **Dados iniciais**: entra em `/gestao` com a tua conta; com a base vazia aparece o botão **Carregar dados iniciais** (16 membros do Anexo I e regulamento 2026). Em alternativa, no terminal:
    ```bash
    cp .env.example .env.local   # preencher
    npm install
