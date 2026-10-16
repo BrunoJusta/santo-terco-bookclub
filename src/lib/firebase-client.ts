@@ -1,7 +1,8 @@
 import { getApps, initializeApp, type FirebaseApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
+import { connectAuthEmulator, getAuth, GoogleAuthProvider, type Auth } from "firebase/auth";
 
 let app: FirebaseApp | null = null;
+let emulatorConnected = false;
 
 export function isClientConfigured(): boolean {
   return Boolean(process.env.NEXT_PUBLIC_FIREBASE_API_KEY && process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID);
@@ -19,7 +20,14 @@ export function clientAuth(): Auth {
         appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
       });
   }
-  return getAuth(app);
+  const auth = getAuth(app);
+  // Só em CI/desenvolvimento: NEXT_PUBLIC_AUTH_EMULATOR_HOST nunca deve existir no Vercel.
+  const emu = process.env.NEXT_PUBLIC_AUTH_EMULATOR_HOST;
+  if (emu && !emulatorConnected) {
+    connectAuthEmulator(auth, `http://${emu}`, { disableWarnings: true });
+    emulatorConnected = true;
+  }
+  return auth;
 }
 
 export function googleProvider(): GoogleAuthProvider {

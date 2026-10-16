@@ -15,6 +15,9 @@ jobs:
       FIREBASE_PROJECT_ID: demo-santo-terco
       FIREBASE_DATABASE_ID: santo-terco-bookclub-prod
       FIRESTORE_EMULATOR_HOST: 127.0.0.1:8080
+      FIREBASE_AUTH_EMULATOR_HOST: 127.0.0.1:9099
+      NEXT_PUBLIC_AUTH_EMULATOR_HOST: 127.0.0.1:9099
+      ADMIN_BOOTSTRAP_EMAILS: bruno.justa@sogrape.pt
       NEXT_PUBLIC_FIREBASE_API_KEY: demo-key
       NEXT_PUBLIC_FIREBASE_PROJECT_ID: demo-santo-terco
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: demo-santo-terco.firebaseapp.com
@@ -32,7 +35,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: node scripts/ci/demo-assets.mjs
       - run: npm run build
-      - run: mkdir -p shots && npx firebase-tools emulators:exec --only firestore --project demo-santo-terco "bash scripts/ci/run-shots.sh"
+      - run: mkdir -p shots && npx firebase-tools emulators:exec --only firestore,auth --project demo-santo-terco "bash scripts/ci/run-shots.sh"
       - name: Publicar screenshots no ramo ci-screenshots
         if: always()
         run: |

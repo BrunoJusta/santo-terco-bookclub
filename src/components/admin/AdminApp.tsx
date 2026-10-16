@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { onAuthStateChanged, signInWithPopup, signOut, type User } from "firebase/auth";
+import { onAuthStateChanged, signInWithCustomToken, signInWithPopup, signOut, type User } from "firebase/auth";
 import { ArrowSquareOut, GoogleLogo, SignOut } from "@phosphor-icons/react";
 import { clientAuth, googleProvider, isClientConfigured } from "@/lib/firebase-client";
 import { getAdminData, verifyAdmin } from "@/app/actions/admin";
@@ -57,6 +57,9 @@ export function AdminApp() {
     if (!isClientConfigured()) {
       setUser(null);
       return;
+    }
+    if (process.env.NEXT_PUBLIC_AUTH_EMULATOR_HOST) {
+      (window as unknown as { __stSignIn?: (t: string) => Promise<unknown> }).__stSignIn = (t) => signInWithCustomToken(clientAuth(), t);
     }
     return onAuthStateChanged(clientAuth(), setUser);
   }, []);

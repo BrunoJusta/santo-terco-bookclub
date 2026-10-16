@@ -55,5 +55,34 @@ for (const scheme of ["light", "dark"]) {
     await ctx.close();
   }
 }
+// Gestão com sessão de admin (emulador de Auth)
+const { initializeApp } = await import("firebase-admin/app");
+const { getAuth } = await import("firebase-admin/auth");
+const adminApp = initializeApp({ projectId: process.env.FIREBASE_PROJECT_ID }, "shots");
+const auth = getAuth(adminApp);
+const user = await auth.createUser({ email: "bruno.justa@sogrape.pt", emailVerified: true, displayName: "Bruno Justa" }).catch(() => auth.getUserByEmail("bruno.justa@sogrape.pt"));
+for (const [vname, viewport] of viewports) {
+  const ctx = await browser.newContext({ viewport, colorScheme: "light", reducedMotion: "reduce", locale: "pt-PT", timezoneId: "Europe/Lisbon" });
+  const page = await ctx.newPage();
+  page.on("pageerror", (e) => errors.push(`admin ${vname}: ${e.message}`));
+  await page.goto(base + "/gestao", { waitUntil: "networkidle" });
+  const token = await auth.createCustomToken(user.uid);
+  await page.waitForFunction(() => "__stSignIn" in window);
+  await page.evaluate((t) => window.__stSignIn(t), token);
+  await page.getByRole("button", { name: "Livros", exact: true }).waitFor({ timeout: 20000 });
+  await page.waitForTimeout(800);
+  const shot = (n) => page.screenshot({ path: `${out}/${vname}-admin-${n}.png`, fullPage: true });
+  await shot("livros");
+  await page.getByRole("button", { name: /The Silent Patient/ }).click();
+  await page.waitForTimeout(800);
+  await shot("livro-lido");
+  await page.getByRole("button", { name: /Livros$/ }).first().click();
+  for (const tab of ["Votações", "Membros", "Regulamento", "Admins"]) {
+    await page.getByRole("navigation", { name: "Secções da Gestão" }).getByRole("button", { name: tab }).click();
+    await page.waitForTimeout(500);
+    await shot(tab.toLowerCase().normalize("NFD").replace(/[^a-z]/g, ""));
+  }
+  await ctx.close();
+}
 await browser.close();
 console.log(errors.length ? "ERROS DE CONSOLA:\n" + errors.join("\n") : "Sem erros de consola.");
