@@ -23,6 +23,7 @@ import { deleteImage, importRemoteCover, MAX_UPLOAD_BYTES, saveImage, type Uploa
 import { slugify, isValidRating } from "@/lib/format";
 import { DEFAULT_K } from "@/lib/voting";
 import { DEFAULT_RULES, SEED_MEMBERS } from "@/lib/default-rules";
+import { DEFAULT_RULES, SEED_MEMBERS } from "@/lib/default-rules";
 import type { ActionResult, AdminData, Book, Photo, PollResult } from "@/lib/types";
 
 class UserError extends Error {}
@@ -616,6 +617,32 @@ export async function removeAdmin(token: string, email: string): Promise<ActionR
     if (bootstrapAdmins().includes(e)) throw new UserError("Este admin está definido no Vercel (ADMIN_BOOTSTRAP_EMAILS).");
     await col.config().doc("admins").set({ emails: FieldValue.arrayRemove(e) }, { merge: true });
     return done(null);
+  } catch (e) {
+    return fail(e);
+  }
+}
+
+/* ------------------------------------------------------------------ Dados iniciais */
+
+/** Carrega os 16 membros do Anexo I e o regulamento 2026. Não duplica nem apaga nada. */
+export async function seedInitialData(token: string): Promise<ActionResult<number>> {
+  try {
+    const me = await requireAdmin(token);
+    const existing = await col.members().get();
+    const names = new Set(existing.docs.map((d) => String(d.data().name)));
+    const ts = now();
+    const batch = db().batch();
+    let added = 0;
+    for (const m of SEED_MEMBERS) {
+      if (names.has(m.name)) continue;
+      batch.set(col.members().doc(slugify(m.name)), { ...m, active: true, rodadas: [], createdAt: ts });
+      added++;
+    }
+    const rulesRef = col.config().doc("regulamento");
+    if (!(await rulesRef.get()).exists) batch.set(rulesRef, { ...DEFAULT_RULES, updatedAt: ts });
+    batch.set(col.config().doc("admins"), { emails: FieldValue.arrayUnion(me) }, { merge: true });
+    await batch.commit();
+    return done(added);
   } catch (e) {
     return fail(e);
   }
