@@ -134,7 +134,7 @@ export function AdminApp() {
   }
 
   const header = (
-    <header className="sticky top-0 z-10 border-b border-line bg-paper/90 backdrop-blur-md">
+    <header className="sticky top-0 z-10 border-b border-line bg-paper/95 pt-[env(safe-area-inset-top)] backdrop-blur-md">
       <div className={`${container} flex h-16 items-center justify-between gap-3`}>
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <Image src="/brand/logo.webp" alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover ring-1 ring-line" />
@@ -218,7 +218,7 @@ export function AdminApp() {
   return (
     <AdminContext.Provider value={ctx!}>
       {header}
-      <div className="sticky top-16 z-[9] border-b border-line bg-paper/90 backdrop-blur-md">
+      <div className="sticky top-[calc(4rem+env(safe-area-inset-top))] z-[9] border-b border-line bg-paper/95 backdrop-blur-md">
         <nav aria-label="Secções da Gestão" className={`${container} flex gap-1 overflow-x-auto py-2 [scrollbar-width:none]`}>
           {TABS.map((t) => (
             <button
