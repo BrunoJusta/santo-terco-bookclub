@@ -25,6 +25,8 @@ const viewports = [
 ];
 
 const browser = await chromium.launch();
+// A app faz scroll numa zona interior; para screenshots de página inteira, desliga-se esse modo.
+const FLATTEN = `#st-scroller{position:static!important;overflow:visible!important;inset:auto!important}html,body{height:auto!important;overflow:visible!important}`;
 const errors = [];
 for (const scheme of ["light"]) {
   for (const [vname, viewport, scale] of viewports) {
@@ -36,6 +38,7 @@ for (const scheme of ["light"]) {
     for (const [name, path] of pages) {
       if (scheme === "dark" && !["agora", "livro", "votar"].includes(name)) continue;
       await page.goto(base + path, { waitUntil: "networkidle" });
+      await page.addStyleTag({ content: FLATTEN });
       await page.waitForTimeout(600);
       await page.screenshot({ path: `${out}/${vname}-${scheme}-${name}.png`, fullPage: true });
     }
@@ -51,6 +54,7 @@ for (const scheme of ["light"]) {
       await adds.first().click();
       await adds.first().click();
       await page.waitForTimeout(300);
+      await page.addStyleTag({ content: FLATTEN });
       await page.screenshot({ path: `${out}/${vname}-light-votar-ordem.png`, fullPage: true });
     }
     await ctx.close();
@@ -72,6 +76,7 @@ for (const [vname, viewport] of viewports) {
   await page.evaluate((t) => window.__stSignIn(t), token);
   await page.getByRole("button", { name: "Livros", exact: true }).waitFor({ timeout: 20000 });
   await page.waitForTimeout(800);
+  await page.addStyleTag({ content: FLATTEN });
   const shot = (n) => page.screenshot({ path: `${out}/${vname}-admin-${n}.png`, fullPage: true });
   await shot("livros");
   await page.getByRole("button", { name: /The Silent Patient/ }).click();

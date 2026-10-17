@@ -8,6 +8,7 @@ import { ArrowSquareOut, SignIn, SignOut } from "@phosphor-icons/react";
 import { clientAuth, isClientConfigured, microsoftProvider } from "@/lib/firebase-client";
 import { getAdminData, verifyAdmin } from "@/app/actions/admin";
 import { AdminContext, type AdminCtx } from "./context";
+import { scrollAppToTop } from "@/components/ScrollShell";
 import { BooksPanel } from "./BooksPanel";
 import { PollsPanel } from "./PollsPanel";
 import { MembersPanel } from "./MembersPanel";
@@ -44,7 +45,7 @@ export function AdminApp() {
     const url = new URL(window.location.href);
     url.searchParams.set("tab", t);
     window.history.replaceState(null, "", url);
-    window.scrollTo({ top: 0 });
+    scrollAppToTop();
   }
 
   const notify = useCallback((message: string, tone: "ok" | "erro" = "ok") => {

@@ -73,6 +73,12 @@ textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   min-height: 100dvh;
   background: var(--paper);

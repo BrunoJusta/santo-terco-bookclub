@@ -2,13 +2,15 @@ import Link from "next/link";
 import { SiteNav } from "@/components/SiteNav";
 import { isFirebaseConfigured } from "@/lib/server/firebase";
 import { container } from "@/components/ui";
+import { ScrollShell } from "@/components/ScrollShell";
 
 export const dynamic = "force-dynamic";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const configured = isFirebaseConfigured();
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <ScrollShell>
+    <div className="flex min-h-full flex-col">
       <a
         href="#conteudo"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
@@ -35,5 +37,6 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </Link>
       </footer>
     </div>
+    </ScrollShell>
   );
 }
