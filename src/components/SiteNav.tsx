@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Books, HandsPraying, UsersThree } from "@phosphor-icons/react";
 
 const LINKS = [
-  { href: "/", label: "Agora", Icon: HandsPraying },
+  { href: "/", label: "Atual", Icon: HandsPraying },
   { href: "/estante", label: "Estante", Icon: Books },
   { href: "/clube", label: "Clube", Icon: UsersThree },
 ];
@@ -24,7 +24,14 @@ export function SiteNav() {
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5" aria-label="Santo Terço, início">
             <Image src="/brand/logo.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover ring-1 ring-line" />
-            <span className="font-display text-xl leading-none text-ink">Santo Terço</span>
+            <span className="font-display text-lg leading-none tracking-[0.02em]">
+              <span className="text-rose">
+                <span className="text-[1.3em]">S</span>ANTO
+              </span>{" "}
+              <span className="text-sky">
+                <span className="text-[1.3em]">T</span>ERÇO
+              </span>
+            </span>
           </Link>
           <nav aria-label="Principal" className="hidden md:block">
             <ul className="flex items-center gap-1">
@@ -48,7 +55,7 @@ export function SiteNav() {
 
       <nav
         aria-label="Principal"
-        className="bar-bottom fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="bar-bottom fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper pb-[max(0.25rem,calc(env(safe-area-inset-bottom)-1rem))] md:hidden"
       >
         <ul className="grid grid-cols-3">
           {LINKS.map(({ href, label, Icon }) => {
@@ -58,7 +65,7 @@ export function SiteNav() {
                 <Link
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-medium ${active ? "text-rose" : "text-ink-3"}`}
+                  className={`flex flex-col items-center gap-0.5 pb-1.5 pt-2 text-[11px] font-medium ${active ? "text-rose" : "text-ink-3"}`}
                 >
                   <Icon size={24} weight={active ? "fill" : "regular"} aria-hidden />
                   {label}

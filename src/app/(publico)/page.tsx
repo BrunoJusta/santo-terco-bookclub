@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 const MIN_READS = 4;
 
-export default async function AgoraPage() {
+export default async function AtualPage() {
   const [books, members, polls, reviews] = await Promise.all([getBooks(), getMembers(), getPolls(), getReviews()]);
   const memberName = new Map(members.map((m) => [m.id, m.name]));
   const active = members.filter((m) => m.active);

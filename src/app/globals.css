@@ -18,6 +18,7 @@
   --rose: #c42766;
   --rose-ink: #fff6fa;
   --rose-soft: #f8dce8;
+  --sky: #2f63c8;
   --shadow: 23 26 59;
   color-scheme: only light;
 }
@@ -34,6 +35,7 @@
   --color-rose: var(--rose);
   --color-rose-ink: var(--rose-ink);
   --color-rose-soft: var(--rose-soft);
+  --color-sky: var(--sky);
   --font-display: var(--font-gloock), ui-serif, Georgia, serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
