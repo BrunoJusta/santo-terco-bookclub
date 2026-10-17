@@ -1,0 +1,4 @@
+scroll interior: {"scroller":900,"window":0}
+ERROS DE CONSOLA:
+mobile http://localhost:3000/nao-existe: Failed to load resource: the server responded with a status of 404 (Not Found)
+desktop http://localhost:3000/nao-existe: Failed to load resource: the server responded with a status of 404 (Not Found)
