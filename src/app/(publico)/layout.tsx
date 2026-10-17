@@ -16,7 +16,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         Saltar para o conteúdo
       </a>
       <SiteNav />
-      <main id="conteudo" className="flex-1 scroll-mt-20 pb-28 md:pb-16">
+      <main id="conteudo" className="flex-1 scroll-mt-20 pb-28 pt-[calc(4rem+env(safe-area-inset-top))] md:pb-16">
         {configured ? (
           children
         ) : (

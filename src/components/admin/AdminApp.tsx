@@ -134,7 +134,7 @@ export function AdminApp() {
   }
 
   const header = (
-    <header className="sticky top-0 z-10 border-b border-line bg-paper/95 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-10 border-b border-line bg-paper pt-[env(safe-area-inset-top)]">
       <div className={`${container} flex h-16 items-center justify-between gap-3`}>
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <Image src="/brand/logo.webp" alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover ring-1 ring-line" />
@@ -153,6 +153,7 @@ export function AdminApp() {
       </div>
     </header>
   );
+  const headerSpacer = <div aria-hidden className="h-[calc(4rem+env(safe-area-inset-top))]" />;
 
   const toastLayer = (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex flex-col items-center gap-2 px-4" aria-live="polite">
@@ -174,6 +175,7 @@ export function AdminApp() {
     return (
       <>
         {header}
+        {headerSpacer}
         <div className={`${container} py-16`} aria-busy>
           <div className="h-10 w-64 animate-pulse rounded-[10px] bg-paper-2" />
           <div className="mt-8 grid gap-3">
@@ -191,6 +193,7 @@ export function AdminApp() {
     return (
       <>
         {header}
+        {headerSpacer}
         <div className={`${container} flex min-h-[70dvh] flex-col justify-center py-16`}>
           <h1 className="max-w-[16ch] font-display text-5xl leading-[1.05] text-ink">Só para quem guarda o terço.</h1>
           {denied ? (
@@ -218,7 +221,8 @@ export function AdminApp() {
   return (
     <AdminContext.Provider value={ctx!}>
       {header}
-      <div className="sticky top-[calc(4rem+env(safe-area-inset-top))] z-[9] border-b border-line bg-paper/95 backdrop-blur-md">
+      {headerSpacer}
+      <div className="sticky top-[calc(4rem+env(safe-area-inset-top))] z-[9] border-b border-line bg-paper">
         <nav aria-label="Secções da Gestão" className={`${container} flex gap-1 overflow-x-auto py-2 [scrollbar-width:none]`}>
           {TABS.map((t) => (
             <button
