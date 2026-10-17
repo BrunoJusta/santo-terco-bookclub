@@ -134,7 +134,7 @@ export function AdminApp() {
   }
 
   const header = (
-    <header className="fixed inset-x-0 top-0 z-10 border-b border-line bg-paper pt-[env(safe-area-inset-top)]">
+    <header className="bar-top fixed inset-x-0 top-0 z-10 border-b border-line bg-paper pt-[env(safe-area-inset-top)]">
       <div className={`${container} flex h-16 items-center justify-between gap-3`}>
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
           <Image src="/brand/logo.webp" alt="" width={32} height={32} className="h-8 w-8 rounded-full object-cover ring-1 ring-line" />

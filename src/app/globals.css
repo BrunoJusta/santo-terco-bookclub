@@ -43,7 +43,7 @@
 }
 
 html {
-  background: var(--paper);
+  background-color: var(--paper);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
@@ -274,4 +274,25 @@ body::after {
 dialog::backdrop {
   background: rgb(14 16 36 / 0.55);
   backdrop-filter: blur(2px);
+}
+
+/*
+  Safari no iOS 26 desenha a página por baixo da barra de estado (horas, bateria), acima da área visível.
+  Estas faixas, coladas por fora dos elementos fixos, tapam essa zona com a cor da app.
+*/
+.bar-top::before,
+.bar-bottom::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: var(--paper);
+  pointer-events: none;
+}
+.bar-top::before {
+  bottom: 100%;
+}
+.bar-bottom::after {
+  top: 100%;
 }
