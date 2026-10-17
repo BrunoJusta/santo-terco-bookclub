@@ -60,6 +60,19 @@ for (const scheme of ["light"]) {
     await ctx.close();
   }
 }
+// Verificação do scroll interior (sem achatar): a meio da página o header continua no topo
+{
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, reducedMotion: "reduce" });
+  const page = await ctx.newPage();
+  await page.goto(base + "/estante/the-silent-patient", { waitUntil: "networkidle" });
+  await page.evaluate(() => document.getElementById("st-scroller").scrollTo({ top: 900 }));
+  await page.waitForTimeout(400);
+  const info = await page.evaluate(() => ({ scroller: document.getElementById("st-scroller").scrollTop, window: window.scrollY }));
+  console.log("scroll interior:", JSON.stringify(info));
+  await page.screenshot({ path: `${out}/mobile-scroll-check.png` });
+  await ctx.close();
+}
+
 // Gestão com sessão de admin (emulador de Auth)
 const { initializeApp } = await import("firebase-admin/app");
 const { getAuth } = await import("firebase-admin/auth");
