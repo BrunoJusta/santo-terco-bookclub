@@ -2,6 +2,7 @@
 
 import { CheckCircle } from "@phosphor-icons/react";
 import type { Member } from "@/lib/types";
+import { Avatar } from "./Avatar";
 
 /** Grelha de nomes. Quem já participou aparece bloqueado, sem revelar o que escolheu. */
 export function MemberPicker({
@@ -45,6 +46,7 @@ export function MemberPicker({
                 onChange={() => onChange(m.id)}
                 className="sr-only"
               />
+              <Avatar member={m} size={28} className={isDone ? "opacity-60" : ""} />
               <span className="min-w-0 flex-1 truncate">{m.name}</span>
               {isDone && (
                 <span className="flex shrink-0 items-center gap-1 text-xs">

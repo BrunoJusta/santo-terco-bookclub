@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { bucket, STORAGE_PREFIX } from "./firebase";
 import type { Photo } from "../types";
 
-export type UploadKind = "covers" | "photos" | "wines";
+export type UploadKind = "covers" | "photos" | "wines" | "avatars";
 
 const ALLOWED_TYPES: Record<string, string> = {
   "image/jpeg": "jpg",

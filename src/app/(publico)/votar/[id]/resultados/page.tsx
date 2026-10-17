@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Crown } from "@phosphor-icons/react/dist/ssr";
+import { Avatar } from "@/components/Avatar";
 import { BookCover } from "@/components/BookCover";
 import { CoinFlip } from "@/components/CoinFlip";
 import { btn, chip, container } from "@/components/ui";
@@ -38,7 +39,8 @@ export default async function ResultadosPage({ params }: Props) {
           </h2>
           <ul className="mt-4 flex flex-wrap gap-2">
             {poll.voterIds.map((v) => (
-              <li key={v} className={chip}>
+              <li key={v} className={`${chip} pl-1`}>
+                <Avatar member={members.find((m) => m.id === v)} size={24} />
                 {name.get(v) ?? "Ex-membro"}
               </li>
             ))}

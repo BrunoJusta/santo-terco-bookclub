@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft, CalendarBlank, MapPin, Star } from "@phosphor-icons/react/dist/ssr";
+import { Avatar } from "@/components/Avatar";
 import { BookCover } from "@/components/BookCover";
 import { Stars } from "@/components/Stars";
 import { btn, chip, container } from "@/components/ui";
@@ -27,6 +28,7 @@ export default async function BookPage({ params }: Props) {
 
   const [reviews, members, wines] = await Promise.all([getReviewsForBook(id), getMembers(), getWines()]);
   const name = new Map(members.map((m) => [m.id, m.name]));
+  const member = new Map(members.map((m) => [m.id, m]));
   const avg = average(reviews);
   const bookWines = wines.filter((w) => w.bookId === id && w.image);
   const activeCount = members.filter((m) => m.active).length;
@@ -125,7 +127,8 @@ export default async function BookPage({ params }: Props) {
                 <h3 className="font-display text-2xl text-ink">À mesa</h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {book.attendees.map((m) => (
-                    <li key={m} className={chip}>
+                    <li key={m} className={`${chip} pl-1`}>
+                      <Avatar member={member.get(m)} size={24} />
                       {name.get(m) ?? "Ex-membro"}
                     </li>
                   ))}
@@ -185,13 +188,16 @@ export default async function BookPage({ params }: Props) {
               {reviews.map((r) => (
                 <li key={r.id} className="py-5 first:pt-0">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-medium text-ink">{name.get(r.memberId) ?? "Ex-membro"}</span>
+                    <span className="flex items-center gap-2.5 font-medium text-ink">
+                      <Avatar member={member.get(r.memberId)} size={36} />
+                      {name.get(r.memberId) ?? "Ex-membro"}
+                    </span>
                     <span className="flex items-center gap-2">
                       <Stars value={r.rating} size={16} />
                       <span className="tabular font-mono text-sm text-ink-2">{formatRating(r.rating)}</span>
                     </span>
                   </div>
-                  {r.text && <p className="mt-2 max-w-[65ch] whitespace-pre-line text-[15px] leading-relaxed text-ink-2">{r.text}</p>}
+                  {r.text && <p className="mt-2 max-w-[65ch] pl-[46px] whitespace-pre-line text-[15px] leading-relaxed text-ink-2">{r.text}</p>}
                 </li>
               ))}
             </ul>

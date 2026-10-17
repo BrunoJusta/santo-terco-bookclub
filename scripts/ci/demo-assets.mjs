@@ -69,4 +69,10 @@ for (const [id, glass, label] of wines) {
   await sharp(Buffer.from(svg)).png().toFile(`${out}/wine-${id}.png`);
 }
 
+const tones = ["#e2477f", "#3a6ea5", "#2d6a4f", "#c8553d", "#6d597a", "#e9c46a"];
+for (let i = 0; i < 6; i++) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="400" height="400" fill="${tones[i]}"/><circle cx="200" cy="160" r="80" fill="#fff" opacity=".85"/><ellipse cx="200" cy="380" rx="150" ry="120" fill="#fff" opacity=".85"/></svg>`;
+  await sharp(Buffer.from(svg)).jpeg({ quality: 82 }).toFile(`${out}/avatar-${i}.jpg`);
+}
+
 console.log("Imagens de demonstração geradas em", out);

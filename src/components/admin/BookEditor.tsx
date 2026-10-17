@@ -7,6 +7,7 @@ import { deleteBook, deleteWine, importCover, saveBook, searchBooks, type BookSe
 import { useAdmin, uploadPhoto } from "./context";
 import { ConfirmButton, ImagePicker, SectionTitle, SelectInput, TextArea, TextInput } from "./bits";
 import { ReviewsEditor } from "./ReviewsEditor";
+import { Avatar } from "@/components/Avatar";
 import { WineForm } from "./WineForm";
 import { btn, card, field } from "@/components/ui";
 import { isoToLisbonLocal, lisbonLocalToIso } from "@/lib/time";
@@ -275,7 +276,7 @@ export function BookEditor({ book, initialStatus, onClose }: { book?: Book; init
                   return (
                     <label
                       key={m.id}
-                      className={`inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-sm transition ${
+                      className={`inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full border pl-2 pr-3 text-sm transition ${
                         on ? "border-ink bg-ink text-paper" : "border-line bg-card text-ink-2 hover:border-ink-3"
                       }`}
                     >
@@ -285,7 +286,7 @@ export function BookEditor({ book, initialStatus, onClose }: { book?: Book; init
                         checked={on}
                         onChange={() => set("attendees", on ? d.attendees.filter((x) => x !== m.id) : [...d.attendees, m.id])}
                       />
-                      {on && <Check size={14} weight="bold" aria-hidden />}
+                      {on ? <Check size={14} weight="bold" aria-hidden /> : <Avatar member={m} size={22} />}
                       {m.name}
                     </label>
                   );

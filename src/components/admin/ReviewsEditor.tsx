@@ -7,6 +7,7 @@ import { useAdmin } from "./context";
 import { ConfirmButton, SectionTitle, SelectInput, StatusPill, TextArea } from "./bits";
 import { StarInput } from "@/components/StarInput";
 import { Stars } from "@/components/Stars";
+import { Avatar } from "@/components/Avatar";
 import { btn, field } from "@/components/ui";
 import { average, formatRating } from "@/lib/format";
 import type { Review } from "@/lib/types";
@@ -101,6 +102,7 @@ export function ReviewsEditor({ bookId }: { bookId: string }) {
             <li key={r.id} className="flex flex-col gap-2 py-3 sm:flex-row sm:items-start sm:justify-between">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
+                  <Avatar member={data.members.find((m) => m.id === r.memberId)} size={28} />
                   <span className="font-medium text-ink">{name.get(r.memberId) ?? r.memberId}</span>
                   <Stars value={r.rating} size={14} />
                   <span className="tabular font-mono text-sm text-ink-2">{formatRating(r.rating)}</span>

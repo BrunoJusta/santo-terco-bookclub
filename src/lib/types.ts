@@ -26,6 +26,7 @@ export interface Member {
   name: string;
   founder: boolean;
   active: boolean;
+  photo: Photo | null;
   rodadas: Rodada[];
   createdAt: string;
 }

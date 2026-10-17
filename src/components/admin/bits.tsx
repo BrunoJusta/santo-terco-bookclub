@@ -142,7 +142,7 @@ export function ImagePicker({
         {label}
       </span>
       <div className="flex items-end gap-3">
-        <div className={`relative ${aspect} w-28 shrink-0 overflow-hidden rounded-[10px] border border-line bg-paper-2`}>
+        <div className={`relative ${aspect} w-28 shrink-0 overflow-hidden border border-line bg-paper-2 ${aspect === "aspect-square" ? "rounded-full" : "rounded-[10px]"}`}>
           {value ? (
             <Image src={value.url} alt="" fill sizes="112px" className={contain ? "object-contain p-1" : "object-cover"} />
           ) : (

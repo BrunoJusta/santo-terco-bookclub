@@ -26,6 +26,7 @@ async function main() {
     batch.set(db.collection("members").doc(ids[i]), {
       ...m,
       active: true,
+      photo: i < 6 ? img(`avatar-${i}.jpg`) : null,
       rodadas: i === 3 ? [{ id: "r1", motivo: "Faltou ao jantar de setembro", data: "2026-09-20", paga: false }] : [],
       createdAt: new Date().toISOString(),
     }),

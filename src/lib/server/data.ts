@@ -26,6 +26,7 @@ export function toMember(s: DocumentSnapshot): Member {
     name: str(d.name, "Sem nome"),
     founder: d.founder === true,
     active: d.active !== false,
+    photo: photo(d.photo),
     rodadas: arr<Member["rodadas"][number]>(d.rodadas),
     createdAt: str(d.createdAt),
   };

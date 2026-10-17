@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import { CaretDown, Crown, Wine } from "@phosphor-icons/react/dist/ssr";
+import { Avatar } from "@/components/Avatar";
 import { Markdown } from "@/components/Markdown";
 import { card, container } from "@/components/ui";
 import { getMembers, getRules } from "@/lib/server/data";
@@ -46,7 +47,8 @@ export default async function ClubePage() {
           <p className="mt-2 text-sm text-ink-3">Órgão supremo de orientação, mediação e decisão (Art. 3.º).</p>
           <ul className="mt-5 flex flex-col">
             {founders.map((m) => (
-              <li key={m.id} className="border-b border-line py-3 font-display text-2xl text-ink last:border-b-0">
+              <li key={m.id} className="flex items-center gap-4 border-b border-line py-3 font-display text-2xl text-ink last:border-b-0">
+                <Avatar member={m} size={52} />
                 {m.name}
               </li>
             ))}
@@ -58,7 +60,8 @@ export default async function ClubePage() {
           </h2>
           <ul className="mt-5 grid grid-cols-1 gap-x-6 sm:grid-cols-2">
             {others.map((m) => (
-              <li key={m.id} className="border-b border-line py-3 text-lg text-ink-2">
+              <li key={m.id} className="flex items-center gap-3 border-b border-line py-3 text-lg text-ink-2">
+                <Avatar member={m} size={40} />
                 {m.name}
               </li>
             ))}
@@ -77,8 +80,11 @@ export default async function ClubePage() {
           </p>
           <ul className="mt-5 flex flex-col divide-y divide-line">
             {debtors.map(({ m, owed }) => (
-              <li key={m.id} className="flex flex-wrap items-baseline justify-between gap-2 py-3">
-                <span className="text-ink">{m.name}</span>
+              <li key={m.id} className="flex flex-wrap items-center justify-between gap-2 py-3">
+                <span className="flex items-center gap-2.5 text-ink">
+                  <Avatar member={m} size={32} />
+                  {m.name}
+                </span>
                 <span className="text-sm text-ink-2">
                   {owed.length} {owed.length === 1 ? "rodada" : "rodadas"}
                   {owed[0]?.motivo ? <span className="text-ink-3">, {owed.map((o) => o.motivo).filter(Boolean).join("; ")}</span> : null}

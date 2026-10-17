@@ -16,6 +16,7 @@ import {
   getRules,
   getWines,
   toBook,
+  toMember,
   toPoll,
   toWine,
 } from "@/lib/server/data";
@@ -84,7 +85,7 @@ export async function uploadImage(token: string, form: FormData): Promise<Action
     const file = form.get("file");
     const kind = String(form.get("kind")) as UploadKind;
     if (!(file instanceof Blob)) throw new UserError("Ficheiro em falta.");
-    if (!["covers", "photos", "wines"].includes(kind)) throw new UserError("Tipo de imagem inválido.");
+    if (!["covers", "photos", "wines", "avatars"].includes(kind)) throw new UserError("Tipo de imagem inválido.");
     if (file.size > MAX_UPLOAD_BYTES) throw new UserError("Imagem demasiado grande, mesmo depois de comprimida.");
     const width = Number(form.get("width")) || null;
     const height = Number(form.get("height")) || null;
@@ -358,6 +359,7 @@ const memberSchema = z.object({
   name: z.string().trim().min(2, "Nome demasiado curto.").max(120),
   founder: z.boolean().default(false),
   active: z.boolean().default(true),
+  photo: photoSchema.nullable().default(null),
   rodadas: z
     .array(
       z.object({
@@ -379,6 +381,8 @@ export async function saveMember(token: string, input: z.input<typeof memberSche
     const prev = await ref.get();
     const { id: _ignored, ...rest } = data;
     await ref.set({ ...rest, createdAt: prev.data()?.createdAt ?? now() });
+    const prevPhoto = prev.exists ? toMember(prev).photo : null;
+    if (prevPhoto && prevPhoto.path !== data.photo?.path) await deleteImage(prevPhoto.path);
     return done(null);
   } catch (e) {
     return fail(e);
@@ -397,7 +401,9 @@ export async function deleteMember(token: string, memberId: string): Promise<Act
     if (!reviews.empty || !attended.empty || !proposed.empty || !ballots.empty) {
       throw new UserError("Este membro tem histórico (reviews, jantares, propostas ou votos). Marca-o como inativo em vez de apagar.");
     }
+    const snap = await col.members().doc(memberId).get();
     await col.members().doc(memberId).delete();
+    if (snap.exists) await deleteImage(toMember(snap).photo?.path);
     return done(null);
   } catch (e) {
     return fail(e);
@@ -634,7 +640,7 @@ export async function seedInitialData(token: string): Promise<ActionResult<numbe
     let added = 0;
     for (const m of SEED_MEMBERS) {
       if (names.has(m.name)) continue;
-      batch.set(col.members().doc(slugify(m.name)), { ...m, active: true, rodadas: [], createdAt: ts });
+      batch.set(col.members().doc(slugify(m.name)), { ...m, active: true, photo: null, rodadas: [], createdAt: ts });
       added++;
     }
     const rulesRef = col.config().doc("regulamento");

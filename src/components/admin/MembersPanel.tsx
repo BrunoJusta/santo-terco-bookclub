@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { Crown, Plus, Trash, Wine } from "@phosphor-icons/react";
 import { deleteMember, saveMember, seedInitialData } from "@/app/actions/admin";
-import { useAdmin } from "./context";
-import { ConfirmButton, StatusPill, TextInput, Toggle } from "./bits";
+import { useAdmin, uploadPhoto } from "./context";
+import { Avatar } from "@/components/Avatar";
+import { ConfirmButton, ImagePicker, StatusPill, TextInput, Toggle } from "./bits";
 import { btn, card, field } from "@/components/ui";
 import { todayLisbon } from "@/lib/time";
-import type { Member, Rodada } from "@/lib/types";
+import type { Member, Photo, Rodada } from "@/lib/types";
 
 function MemberEditor({ member, onDone }: { member?: Member; onDone: () => void }) {
-  const { run } = useAdmin();
+  const { run, getToken, notify } = useAdmin();
   const [name, setName] = useState(member?.name ?? "");
+  const [photo, setPhoto] = useState<Photo | null>(member?.photo ?? null);
+  const [photoBusy, setPhotoBusy] = useState(false);
   const [founder, setFounder] = useState(member?.founder ?? false);
   const [active, setActive] = useState(member?.active ?? true);
   const [rodadas, setRodadas] = useState<Rodada[]>(member?.rodadas ?? []);
@@ -19,17 +22,36 @@ function MemberEditor({ member, onDone }: { member?: Member; onDone: () => void 
 
   const updateRodada = (id: string, patch: Partial<Rodada>) => setRodadas((rs) => rs.map((r) => (r.id === id ? { ...r, ...patch } : r)));
 
+  async function pickPhoto(file: File) {
+    setPhotoBusy(true);
+    const res = await uploadPhoto(await getToken(), file, "avatars");
+    setPhotoBusy(false);
+    if (res.ok) setPhoto(res.data);
+    else notify(res.error, "erro");
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    const res = await run((t) => saveMember(t, { id: member?.id, name, founder, active, rodadas }), member ? "Membro atualizado." : "Membro adicionado.");
+    const res = await run((t) => saveMember(t, { id: member?.id, name, founder, active, photo, rodadas }), member ? "Membro atualizado." : "Membro adicionado.");
     setSaving(false);
     if (res.ok) onDone();
   }
 
   return (
     <form onSubmit={submit} className={`${card} flex flex-col gap-5 p-4`}>
-      <TextInput label="Nome" value={name} onChange={(e) => setName(e.target.value)} required maxLength={120} />
+      <div className="grid gap-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end">
+        <ImagePicker
+          label="Foto de perfil"
+          value={photo}
+          onPick={pickPhoto}
+          onClear={() => setPhoto(null)}
+          busy={photoBusy}
+          aspect="aspect-square"
+          help="Recortada ao centro em quadrado."
+        />
+        <TextInput label="Nome" value={name} onChange={(e) => setName(e.target.value)} required maxLength={120} />
+      </div>
       <div className="flex flex-wrap gap-6">
         <Toggle checked={founder} onChange={setFounder} label="Comité de Founders" />
         <Toggle checked={active} onChange={setActive} label="Ativo" />
@@ -63,7 +85,7 @@ function MemberEditor({ member, onDone }: { member?: Member; onDone: () => void 
       </fieldset>
 
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className={btn.smallInk} disabled={saving || name.trim().length < 2}>
+        <button type="submit" className={btn.smallInk} disabled={saving || photoBusy || name.trim().length < 2}>
           {saving ? "A guardar…" : "Guardar"}
         </button>
         <button type="button" className={btn.small} onClick={onDone}>
@@ -128,6 +150,7 @@ export function MembersPanel() {
           ) : (
             <li key={m.id}>
               <button type="button" onClick={() => setEditing(m.id)} className="flex w-full items-center gap-3 p-3.5 text-left hover:bg-paper-2/60">
+                <Avatar member={m} size={36} className={m.active ? "" : "opacity-50"} />
                 <span className={`min-w-0 flex-1 truncate text-[15px] ${m.active ? "text-ink" : "text-ink-3 line-through"}`}>{m.name}</span>
                 {m.founder && (
                   <span className="inline-flex items-center gap-1 text-xs text-rose">
